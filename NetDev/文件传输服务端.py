@@ -1,22 +1,18 @@
 import socket
-import subprocess
 import struct
 import json
 import os
-
-def get(filename):
-    pass
-
+from Module.ftp import *
 
 if __name__ == '__main__':
-    phone=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    session=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-    phone.bind(('127.0.0.1',8081))
+    session.bind(('127.0.0.1',8081))
 
-    phone.listen(5) #最大挂起的连接数
+    session.listen(5) #最大挂起的连接数
 
     while True:
-        conn, client_addr = phone.accept()
+        conn, client_addr = session.accept()
 
         while True:
             try:
@@ -29,11 +25,22 @@ if __name__ == '__main__':
                 filename=command_lst[1]
 
                 if command_args == 'get':
-                    if os.path.exists(filename):
+                    if not os.path.exists(filename):
                         print('文件不存在')
                         continue
-                    with open(filename,'rb') as rfile:
-                        rfile.readline()
+                    file=Ftp(filename)
+                    data_dict=file.get()
+                    data=data_dict['file_data']
+                    del data_dict['file_data']
+                    print(data_dict['file_type'])
+
+                    data_json=json.dumps(data_dict)
+                    data_json_bytes=data_json.encode('utf-8')
+
+                    conn.send(struct.pack('i',len(data_json_bytes)))
+                    conn.send(data_json_bytes)
+                    # conn.send(data)
+
                 elif command_args == 'put':
                     pass
                 else:
@@ -61,8 +68,9 @@ if __name__ == '__main__':
                 # conn.send(stderr)
 
             except Exception as e:
-                break
+                print(e)
+                continue
 
         conn.close()
 
-    phone.close()
+    session.close()

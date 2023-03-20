@@ -21,18 +21,23 @@ if __name__ == '__main__':
 
         phone.send(cmd.encode('utf-8'))
 
-        # msg_total_size=struct.unpack('i',phone.recv(4))[0]
-        #
-        # if msg_total_size <= 1024:
-        #     msg=phone.recv(msg_total_size)
-        # else:
-        #     while msg_size < msg_total_size:
-        #         msg_split=phone.recv(1024)
-        #         msg+=msg_split
-        #         msg_size+=len(msg_split)
-        #
-        # msg_dic=json.loads(msg.decode('utf-8'))
-        #
+        msg_total_size=struct.unpack('i',phone.recv(4))[0]
+
+        if msg_total_size <= 1024:
+            msg=phone.recv(msg_total_size)
+        else:
+            while msg_size < msg_total_size:
+                msg_split=phone.recv(1024)
+                msg+=msg_split
+                msg_size+=len(msg_split)
+
+        msg_dic=json.loads(msg.decode('utf-8'))
+
+        print(msg_dic)
+        if msg_dic['file_type'] == "<class 'bytes'>":
+            print('yes')
+        else:
+            print('no')
         # total_size= msg_dic['total_size']
         #
         # while data_size < total_size:
