@@ -44,7 +44,7 @@ print(md5, name)
 
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
-    'cookie': 'kg_mid=7d2c08b54d7703de1e5775d9069e1efa; kg_dfid=1bmguz1ka3uc1f09CB3leCa8; kg_dfid_collect=d41d8cd98f00b204e9800998ecf8427e; Hm_lvt_aedee6983d4cfc62f509129360d6bb3d=1680057024; kg_mid_temp=7d2c08b54d7703de1e5775d9069e1efa; Hm_lpvt_aedee6983d4cfc62f509129360d6bb3d=1680070945'
+    'cookie': 'kg_mid=525cc1f5239f37d038bf289288e61ce8; kg_dfid=11S8a412rpr811FJLT2NwaRM; kg_dfid_collect=d41d8cd98f00b204e9800998ecf8427e; Hm_lvt_aedee6983d4cfc62f509129360d6bb3d=1681786952; Hm_lpvt_aedee6983d4cfc62f509129360d6bb3d=1681786952; kg_mid_temp=525cc1f5239f37d038bf289288e61ce8'
 }
 
 response = requests.get(url, headers=headers)
@@ -70,5 +70,8 @@ for item in music_dic['data']['lists']:
     except Exception as e:
         print(e)
         continue
-    with open(filename,'wb') as wfile:
-        wfile.write(requests.get(music_url, headers=headers).content)
+    try:
+        with open(filename,'wb') as wfile:
+            wfile.write(requests.get(music_url, headers=headers).content)
+    except Exception as e:
+        print(e)
