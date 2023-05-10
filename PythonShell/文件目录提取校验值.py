@@ -16,7 +16,7 @@ def get_md5(files_lst):
     md5_lst = []
     for i in files_lst:
         with open(i,'r') as rfile:
-            '''此处不要新建hashlib对象，会引起md5值失真。'''
+            #此处不要新建hashlib对象，会引起md5值失真。
             md5_lst.append(hashlib.md5(rfile.read().encode('utf-8')).hexdigest())
     return md5_lst
 
