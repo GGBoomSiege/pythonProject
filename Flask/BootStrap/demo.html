@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul id="city"></ul>
+<table border=1>
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+<script>
+    var cityList = ["北京","上海","深圳"];
+    for(var idx in cityList){
+        var text = cityList[idx];
+        var li = document.createElement("li");
+        li.innerHTML = text;
+        document.getElementById("city").appendChild(li);
+    }
+
+    var dataList = [
+        {name:"张三1",age:18},
+        {name:"李四2",age:19},
+        {name:"王五3",age:20}
+    ];
+
+    var tbody = document.getElementById("body");
+
+    for(var idx in dataList){
+        var tr = document.createElement("tr");
+        var info = dataList[idx];
+        for(var key in info){
+            var text = info[key];
+            var td = document.createElement("td");
+            td.innerHTML = text;
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    }
+</script>
+</body>
+</html>

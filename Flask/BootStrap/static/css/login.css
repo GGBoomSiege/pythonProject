@@ -1,0 +1,17 @@
+.account{
+    width: 500px;
+    border: 1px solid #ddd;
+    height: 350px;
+    border-radius: 5px;
+    box-shadow: 20px 20px 20px #ddd;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
+
+    padding: 20px 40px;
+}
+
+.account h1{
+    text-align: center;
+}

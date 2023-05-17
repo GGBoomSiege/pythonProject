@@ -1,0 +1,26 @@
+body{
+    margin: 0;
+}
+
+div{
+    border: 1px solid red;
+}
+
+.header{
+    height: 100px;
+}
+
+.header .left{
+    float: left;
+    width: 50px;
+}
+
+.header .center{
+    float: left;
+    width: 50px;
+}
+
+.header .right{
+    float: right;
+    width: 50px;
+}
