@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .menus{
+        width: 200px;
+        height: 800px;
+        border: 1px solid red;
+    }
+
+    .menus .header{
+        background-color: gold;
+        padding: 10px 5px;
+        border-bottom: 1px dotted #dddddd;
+        cursor: pointer;
+    }
+
+    .menus .content a{
+        display: block;
+        padding: 5px 5px;
+        border-bottom: 1px dotted #dddddd;
+    }
+
+    .hide{
+        display: none;
+    }
+</style>
+<body>
+<div class="menus">
+    <div class="item">
+        <div class="header" onclick="clickMe(this);">
+            上海
+        </div>
+        <div class="content">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            京海
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            上海1
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            京海1
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            上海2
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            京海2
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            上海3
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            京海4
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            上海5
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+        <div class="header" onclick="clickMe(this);">
+            京海6
+        </div>
+        <div class="content hide">
+            <a>常山区</a>
+            <a>青浦区</a>
+            <a>浦东新区</a>
+        </div>
+    </div>
+</div>
+<script src="static/js/jquery-3.7.0.js"></script>
+<script type="text/javascript">
+    function clickMe(self){
+        if($(self).next().hasClass("hide")){
+            $(self).parent().find(".content").addClass("hide");
+            $(self).next().removeClass("hide");
+        }
+        else{
+            $(self).next().addClass("hide");
+        }
+    }
+</script>
+</body>
+</html>
