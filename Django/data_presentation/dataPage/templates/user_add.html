@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">新建用户</h3>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="/user/add/">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group col-xs-6">
+                    <label class="control-label">{{ field.label}}:</label>
+                    {{ field }}
+                    <span style="color:red">{{ field.error.0 }}</span>
+                </div>
+                {% endfor %}
+                <div class="form-group col-xs-12">
+                    <button type="submit" class="btn btn-success btn-sm pull-right">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/moment-with-locales.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+<script type="text/javascript">
+    $(function(){
+        if(!$(".user-manage").hasClass("active")){
+          $(".department-manage").removeClass("active");
+          $(".user-manage").addClass("active");
+        }
+
+        $('#id_create_time').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn')
+        });
+    })
+
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><b>用户列表</b></div>
+      <div class="panel-body">
+          <a class="btn btn-success btn-sm" href="/user/add/"><i class="fa fa-plus-circle" aria-hidden="true">&nbsp;&nbsp;</i>添加用户</a>
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $(function(){
+          if(!$(".user-manage").hasClass("active")){
+            $(".department-manage").removeClass("active");
+            $(".user-manage").addClass("active");
+	      }
+    })
+</script>
+{% endblock %}

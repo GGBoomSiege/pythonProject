@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DataPresentation</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    {% block style %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/index/">
+                <b>首 页</b>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-sidebar">
+                <li class="user-manage"><a href="/user/index/">用户管理<span class="sr-only">(current)</span></a></li>
+                <li class="department-manage"><a href="/department/index/">部门管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="fa fa-user-circle-o"></i>&nbsp;&nbsp;用&nbsp;户
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user/info/">个人信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/login/">用户注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% block content %}{% endblock %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+    $(".navbar-sidebar a").each(function () {
+        if (location.href.indexOf(this.href) === 0) {
+            console.log($(this));
+            $(this).parent().siblings().removeClass('active')
+            $(this).parent().addClass('active')
+        }
+    })
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

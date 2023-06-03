@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>模板语法学习</h1>
+<div>{{ n1 }}</div>
+<div>{{ n2.0 }}</div>
+<div>{{ n2.1 }}</div>
+<div>
+    {% for i in n2 %}
+    <div>{{ i }}</div>
+    {% endfor %}
+</div>
+<hr/>
+<div>
+    {% for key,value in n3.items %}
+    <div>{{ key }},{{value}}</div>
+    {% endfor %}
+</div>
+<hr/>
+<div>
+    {% for i in n4 %}
+    <div>{{ i.name }}</div>
+    <div>{{ i.age }}</div>
+    {% endfor %}
+</div>
+<hr/>
+{% if n1 == "刘俊" %}
+<h1>刘俊</h1>
+{% else %}
+<h1>未知用户</h1>
+{% endif %}
+<hr/>
+<h1>联通新闻</h1>
+<ul>
+    {% for i in data_list %}
+    <li>{{ i.news_title }} --- {{ i.post_time }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

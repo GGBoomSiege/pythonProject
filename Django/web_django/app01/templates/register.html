@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block style %}
+<style type="text/css">
+        h1 {
+            text-align: center;
+        }
+
+        .form_class {
+            margin-top: 100px;
+            width: 500px;
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 3px 3px #33333357;
+            margin-bottom: 100px;
+        }
+
+        .button_right {
+            float: right;
+        }
+
+        .button_default {
+            margin-top: 30px;
+        }
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container form_class">
+    <h1>用户注册</h1>
+    <form method="post" action="/register/">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" class="form-control" placeholder="请输入用户名" name="username">
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" class="form-control" placeholder="请输入密码" name="password">
+        </div>
+        <div class="form-group">
+            <label>全名</label>
+            <input type="text" class="form-control" placeholder="请输入全名" name="fullname">
+        </div>
+        <div class="form-group">
+            <label>年龄</label>
+            <input type="text" class="form-control" placeholder="请输入年龄" name="age">
+        </div>
+        <div class="form-group">
+            <label>加入时间</label>
+            <input type="text" class="form-control" placeholder="请输入加入时间（如：2023/05/29）" name="join_time">
+        </div>
+        <div class="button_default">
+            <a class="btn btn-default" href="/login/">返回登录</a>
+            <button type="submit" class="btn btn-default button_right">注册</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

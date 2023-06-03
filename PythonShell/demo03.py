@@ -1,11 +1,9 @@
-# def func():
-#     lst, lst2 = [7], [7]
-#     lst3 = lst * 2
-#     lst2.extend(lst)
-#     return lst3 == lst2
-#
-#
-# print(func())
+DATA_DICT = {
+    '1': {'name': '张三', 'age': 18},
+    '2': {'name': '李四', 'age': 18},
+    '3': {'name': '王五', 'age': 18},
+    '4': {'name': '赵六', 'age': 18}
+}
 
-str = "            123456"
-print(str.strip())
+for item in DATA_DICT.items():
+    print(item)

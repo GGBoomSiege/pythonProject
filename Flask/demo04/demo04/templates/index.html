@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>用户列表</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for key,user in DATA_DICT.items() %}
+        <tr>
+            <td>{{key}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>
+                <a href="/edit/{{key}}">编辑</a>
+                <a href="/delete/{{key}}">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

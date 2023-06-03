@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+    div{
+        padding: 10px;
+    }
+    table{
+        border-collapse: collapse;
+        margin: 0;
+        padding: 10;
+        width: 100%;
+    }
+    tr{
+        height: 50px;
+    }
+    td,th{
+        width: 200px;
+        text-align: center;
+    }
+    .header{
+        text-align: center;
+        color: red;
+    }
+
+    </style>
+</head>
+<body>
+<div class="header"><h1>Nginx跨域测试</h1></div>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>问题与解决方式</th>
+            <th>案例</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>问题</td>
+            <td>跨域问题</td>
+            <td>
+                <button class="btn btn-danger" type="submit" id="btn1">Button</button>
+            </td>
+        </tr>
+        <tr>
+            <td>解决方式：</td>
+            <td>1、Nginx:使用nginx代理第三方页面</td>
+            <td>
+                <button class="btn btn-info" type="submit" id="btn2">Button</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>2、CORS:第三方页面开放访问控制</td>
+            <td>
+                <button class="btn btn-info" type="submit" id="btn3">Button</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="js/jquery-3.7.0.js"></script>
+<script>
+    $(function(){
+        $("#btn1").click(function(){
+                $.get('http://192.168.3.234:8081/get',function(data){
+                        alert(JSON.stringify(data));
+                });
+        });
+        $("#btn2").click(function(){
+                $.get('http://192.168.3.234:8080/api/data',function(data){
+                        alert(JSON.stringify(data));
+                });
+        });
+        $("#btn3").click(function(){
+                $.get('http://192.168.3.234:8081/data',function(data){
+                        alert(JSON.stringify(data));
+                });
+        });
+    });
+</script>
+</body>
+</html>
