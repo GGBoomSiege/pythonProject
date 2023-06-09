@@ -21,6 +21,8 @@
                 {% endfor %}
                 <div class="form-group col-xs-12">
                     <button type="submit" class="btn btn-success btn-sm pull-right">提交</button>
+                    <button id="user_return" class="btn btn-default btn-sm pull-right" style="margin-right: 10px">返回
+                    </button>
                 </div>
             </form>
         </div>
@@ -31,17 +33,10 @@
 <script src="{% static 'js/moment-with-locales.js' %}"></script>
 <script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
 <script type="text/javascript">
-    $(function(){
-        if(!$(".user-manage").hasClass("active")){
-          $(".department-manage").removeClass("active");
-          $(".user-manage").addClass("active");
-        }
-
-        $('#id_create_time').datetimepicker({
+    $('#id_create_time').datetimepicker({
             format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn')
+            locale: moment.locale('zh-cn'),
         });
-    })
 
 </script>
 {% endblock %}

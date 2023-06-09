@@ -5,14 +5,14 @@
       <!-- Default panel contents -->
       <div class="panel-heading"><b>部门列表</b></div>
       <div class="panel-body">
-          <a class="btn btn-success btn-sm" href="/department/add/"><i class="fa fa-plus-circle" aria-hidden="true">&nbsp;&nbsp;</i>添加部门</a>
+          <a class="btn btn-success btn-xs" href="/department/add/"><i class="fa fa-plus-circle" aria-hidden="true">&nbsp;&nbsp;</i>添加部门</a>
       </div>
 
       <!-- Table -->
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
+            <th style="text-align: center">序号</th>
             <th>部门名称</th>
             <th>操作</th>
           </tr>
@@ -20,11 +20,11 @@
         <tbody>
         {% for item in query_list %}
           <tr>
-            <th scope="row">{{ item.id }}</th>
+            <th scope="row" style="text-align: center">{{ forloop.counter }}</th>
             <td>{{ item.title }}</td>
             <td>
               <a class="btn btn-primary btn-xs" href="/department/{{ item.id }}/edit/"><i class="fa fa-edit" aria-hidden="true">&nbsp;&nbsp;</i>编辑</a>
-              <a class="btn btn-danger btn-xs" href="/department/edit/{{ item.id }}/"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>删除</a>
+              <a class="btn btn-danger btn-xs" href="/department/{{ item.id }}/delete/"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>删除</a>
             </td>
           </tr>
         {% endfor %}
@@ -34,12 +34,4 @@
   </div>
 {% endblock %}
 {% block script %}
-<script type="text/javascript">
-    $(function(){
-          if(!$(".department-manage").hasClass("active")){
-              $(".user-manage").removeClass("active");
-              $(".department-manage").addClass("active");
-	      }
-    })
-</script>
 {% endblock %}

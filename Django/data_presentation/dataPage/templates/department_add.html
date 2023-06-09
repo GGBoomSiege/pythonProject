@@ -17,6 +17,7 @@
                 {% endfor %}
                 <div class="form-group col-xs-12">
                     <button type="submit" class="btn btn-success btn-sm pull-right">提交</button>
+                    <button id="department_return" class="btn btn-default btn-sm pull-right" style="margin-right: 10px">返回</button>
                 </div>
             </form>
         </div>
@@ -24,19 +25,4 @@
 </div>
 {% endblock %}
 {% block script %}
-<script type="text/javascript">
-    $(function(){
-          if(!$(".department-manage").hasClass("active")){
-              $(".user-manage").removeClass("active");
-              $(".department-manage").addClass("active");
-	      }
-    })
-
-
-
-
-
-
-
-</script>
 {% endblock %}

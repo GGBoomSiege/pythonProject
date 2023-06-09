@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">编辑用户</h3>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="/user/{{ data.id }}/edit/">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group col-xs-6">
+                    <label class="control-label">{{ field.label}}:</label>
+                    {{ field }}
+                    <span style="color:red">{{ field.error.0 }}</span>
+                </div>
+                {% endfor %}
+                    <div class="form-group col-xs-3 pull-right">
+                        <button type="submit" class="btn btn-success btn-sm pull-right">提交</button>
+                        <button id="user_return" class="btn btn-default btn-sm pull-right" style="margin-right: 10px">返回</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/moment-with-locales.js' %}"></script>
+<script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#id_username").attr("value", '{{ data.username }}');
+        $("#id_password").attr({
+            value: '{{ data.password }}',
+            disabled: 'disabled'
+        });
+        $("#id_age").attr("value", {{ data.age }});
+        $("#id_account").attr("value", {{ data.account }});
+<!--        console.log('{{ data.depart.title }}')-->
+        $("#id_depart").find("option[value='{{ data.depart_id }}']").attr("selected", true)
+        $("#id_gender").find("option[value='{{ data.gender }}']").attr("selected", true);
+        var datetime = new Date();
+        datetime.setTime(datetime.getTime());
+        var year = datetime.getFullYear();
+        var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+        var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+        maxDate = year + "-" + month + "-" + date;
+        $('#id_create_time').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            defaultDate: '{{ data.create_time }}',
+            maxDate: maxDate
+        });
+    })
 
-</body>
-</html>
+</script>
+{% endblock %}
