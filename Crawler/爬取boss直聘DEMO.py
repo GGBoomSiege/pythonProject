@@ -2,28 +2,39 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+
+from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.common.action_chains import ActionChains
+
 import time
 
 # 创建一个webdriver对象，指定浏览器类型和驱动程序路径
-
 options = webdriver.ChromeOptions()
+# options.add_argument('--headless')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--no-sandbox')
+# options.add_argument('--disable-dev-shm-usage')
+
+# options = webdriver.ChromeOptions()
 service = webdriver.chrome.service.Service(executable_path=r"D:\Python-3.11\chromedriver.exe")
 service_log_path = 'chromedriver.log'
 service.service_log_path = service_log_path
 driver = webdriver.Chrome(options=options, service=service)
+
 
 # 打开目标网页
 driver.get("https://www.zhipin.com/")
 wait = WebDriverWait(driver, 10)
 
 # 定位搜索框元素，输入关键词
-element = wait.until(driver.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
+element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
 search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
 search_box.send_keys("运维工程师")
 
 # 定位搜索按钮元素，点击搜索
 search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
-search_button.click()
+ActionChains(driver).move_to_element(search_button).click().perform()
 
 time.sleep(5)
 
@@ -32,12 +43,12 @@ jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
 
 for item in jobs:
     job_titles = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-    # print(job_titles[0].text)
-    # print(job_titles[0].get_attribute('href'))
+    print(job_titles[0].text)
+    print(job_titles[0].get_attribute('href'))
     company_titles = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-    # print(company_titles[0].text)
+    print(company_titles[0].text)
     company_urls = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-    # print(company_urls[0].get_attribute('href'))
+    print(company_urls[0].get_attribute('href'))
 
 
 
