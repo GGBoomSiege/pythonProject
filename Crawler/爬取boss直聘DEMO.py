@@ -2,11 +2,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-
 from selenium.webdriver.support import expected_conditions as EC
-
+from urllib.parse import quote
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.common.exceptions import StaleElementReferenceException
 import time
 
 # 创建一个webdriver对象，指定浏览器类型和驱动程序路径
@@ -21,36 +20,72 @@ service = webdriver.chrome.service.Service(executable_path=r"D:\Python-3.11\chro
 service_log_path = 'chromedriver.log'
 service.service_log_path = service_log_path
 driver = webdriver.Chrome(options=options, service=service)
-
+driver.minimize_window()
 
 # 打开目标网页
-driver.get("https://www.zhipin.com/")
-wait = WebDriverWait(driver, 10)
+JOB_KEY = quote("运维工程师")
+url = f"https://www.zhipin.com/web/geek/job?query={JOB_KEY}&city=101190400"
+driver.get(url)
 
+wait = WebDriverWait(driver, 60)
 # 定位搜索框元素，输入关键词
-element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
-search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
-search_box.send_keys("运维工程师")
+# element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
+# search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
+# search_box.send_keys("运维工程师")
 
 # 定位搜索按钮元素，点击搜索
-search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
-ActionChains(driver).move_to_element(search_button).click().perform()
+# search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
+# ActionChains(driver).move_to_element(search_button).click().perform()
+info = []
+while True:
+    # 获取当前页面的所有职位元素
+    element = wait.until(EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
+    jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
 
-time.sleep(5)
+    for item in jobs:
+        element = wait.until(EC.presence_of_element_located(
+            (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
+        job_titles = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
+        # print(job_titles[0].text)
+        # print(job_titles[0].get_attribute('href'))
+        company_titles = item.find_elements(By.XPATH,
+                                            "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
+        # print(company_titles[0].text)
+        company_urls = item.find_elements(By.XPATH,
+                                          "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
+        # print(company_urls[0].get_attribute('href'))
 
-# 获取当前页面的所有职位元素
-jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
+    info.extend([[job_titles[i].text, job_titles[i].get_attribute('href'), company_titles[0].text,
+                  company_urls[0].get_attribute('href')] for i in range(len(job_titles))])
+    # print(len(info))
 
-for item in jobs:
-    job_titles = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-    print(job_titles[0].text)
-    print(job_titles[0].get_attribute('href'))
-    company_titles = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-    print(company_titles[0].text)
-    company_urls = item.find_elements(By.XPATH, "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-    print(company_urls[0].get_attribute('href'))
+    if (len(driver.find_elements(By.XPATH,
+                                 "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
+        end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
+        if 'disabled' in end_button.get_attribute('class'):
+            break
+        else:
+            try:
+                end_button.click()
+            except StaleElementReferenceException:
+                end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                        "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
+                end_button.click()
+    else:
+        end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
+        try:
+            end_button.click()
+        except StaleElementReferenceException:
+            end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                    "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
+            end_button.click()
+    time.sleep(6)
 
-
+print(len(info))
+for item in info:
+    print(item)
 
 # print(type(jobs))
 # print(jobs)
