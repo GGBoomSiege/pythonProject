@@ -33,3 +33,7 @@ class Department(models.Model):
     title = models.CharField(verbose_name="部门名称", max_length=16, unique=True, null=False, blank=False, db_index=False)
     def __str__(self):
         return self.title
+
+class BossJobs(models.Model):
+    id = models.BigIntegerField(primary_key=True,default=unique_department_id)
+    title = models.CharField(verbose_name="职位名称", max_length=16, unique=True, null=False, blank=False, db_index=False)

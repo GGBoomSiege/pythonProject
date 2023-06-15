@@ -1,60 +1,57 @@
-import asyncio
+# 导入selenium库
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import quote
-from playwright import async_playwright
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import StaleElementReferenceException
+import time
 
+# 创建一个webdriver对象，指定浏览器类型和驱动程序路径
+options = webdriver.ChromeOptions()
+# options.add_argument('--headless')
+# options.add_argument('--disable-gpu')
+# options.add_argument('--no-sandbox')
+# options.add_argument('--disable-dev-shm-usage')
 
-async def main():
-    # 创建Playwright实例
-    async with async_playwright() as p:
-        # 在特定浏览器上创建一个新的上下文
-        browser = await p.chromium.launch()
-        context = await browser.new_context()
+# options = webdriver.ChromeOptions()
+service = webdriver.chrome.service.Service(executable_path=r"D:\Python-3.11\chromedriver.exe")
+service_log_path = 'chromedriver.log'
+service.service_log_path = service_log_path
+driver = webdriver.Chrome(options=options, service=service)
+driver.minimize_window()
 
-        # 创建一个新页面并导航到目标网页
-        page = await context.new_page()
-        JOB_KEY = quote("运维工程师")
-        url = f"https://www.zhipin.com/web/geek/job?query={JOB_KEY}&city=101190400"
-        await page.goto(url)
+# 打开目标网页
+JOB_KEY= "java"
+url = f"https://www.zhipin.com/web/geek/job?query={quote(JOB_KEY)}&city=101190400"
+driver.get(url)
 
-        info = []
-        while True:
-            # 获取当前页面的所有职位元素
-            jobs = await page.query_selector_all("//ul[contains(@class,'job-list-box')]")
+wait = WebDriverWait(driver, 60)
+# 定位搜索框元素，输入关键词
+# element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
+# search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
+# search_box.send_keys("运维工程师")
 
-            for item in jobs:
-                job_titles = await item.query_selector_all(
-                    "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-                company_titles = await item.query_selector_all(
-                    "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-                company_urls = await item.query_selector_all(
-                    "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-
-            info.extend([[await title.text(), await title.get_attribute('href'), await company.text(),
-                          await url.get_attribute('href')] for title, url, company in
-                         zip(job_titles, company_urls, company_titles)])
-
-            if await page.query_selector(
-                    "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]"):
-                end_button = await page.query_selector(
-                    "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")
-                if 'disabled' in await end_button.get_attribute('class'):
-                    break
-                else:
-                    await end_button.click()
-            else:
-                end_button = await page.query_selector(
-                    "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")
-                await end_button.click()
-
-            await page.wait_for_timeout(6000)
-
-        print(len(info))
-        for item in info:
-            print(item)
-
-        # 关闭浏览器
-        await browser.close()
-
-
-# 异步运行主函数
-asyncio.run(main())
+while True:
+    try:
+        # 获取当前页面的所有职位元素
+        element = wait.until(
+            EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
+        driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
+    except Exception as e:
+        continue
+    try:
+        if r"https://www.zhipin.com/web/geek/job" in driver.current_url:
+            driver.refresh()
+            time.sleep(1)
+            driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
+        else:
+            continue
+        break
+    except Exception as e:
+        continue
+# 获取当前页面的所有职位元素
+element = wait.until(EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
+jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
+print(jobs)

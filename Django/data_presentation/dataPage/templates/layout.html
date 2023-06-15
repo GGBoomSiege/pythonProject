@@ -7,11 +7,69 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <style type="text/css">
+        .container {
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            height: 83%;
+            opacity: 0.9;
+            padding: 0px;
+        }
+
+        .navbar {
+            background-color: #f4f4f4;
+            border-radius: 0px;
+            padding: 5px;
+            margin: 0px;
+            height: 7%;
+            opacity: 0.8;
+        }
+
+        .navbar a {
+
+        }
+
+        .background-top-image {
+            background-image: url("{% static 'img/background.jpg' %}");
+            background-size: cover;
+            background-position: top;
+        }
+
+        .background-bottom-image {
+            background-image: url("{% static 'img/background.jpg' %}");
+            background-size: cover;
+            background-position: bottom;
+        }
+
+        .panel {
+            border-radius: 5px;
+            height: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        body{
+            background-color: #f4f4f4;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: white;
+        }
+
+        .data-table {
+           height: 80%;
+           overflow: auto;
+        }
+    </style>
     {% block style %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container">
+<nav class="navbar navbar-default background-top-image" style="position: relative;z-index: 999;">
+    <div class="container" style="position: relative;z-index: 998;padding-right: 15px;padding-left: 15px;display: flex;align-items: center;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <a class="navbar-brand" href="/index/">
@@ -20,7 +78,7 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" style="width: 93%">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -67,6 +125,7 @@
     </div><!-- /.container-fluid -->
 </nav>
 {% block content %}{% endblock %}
+<nav class="navbar navbar-default navbar-fixed-bottom background-bottom-image"></nav>
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script type="text/javascript">
