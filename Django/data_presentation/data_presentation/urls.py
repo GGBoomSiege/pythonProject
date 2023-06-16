@@ -30,4 +30,5 @@ urlpatterns = [
     path('department/index/', views.department_index),
     path('department/<int:nid>/edit/', views.department_edit),
     path('department/<int:nid>/delete/', views.department_delete),
+    path('menu/getJob/index/', views.getJob_index)
 ]

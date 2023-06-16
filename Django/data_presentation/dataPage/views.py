@@ -140,3 +140,9 @@ def department_delete(request, nid):
     departmentData = models.Department.objects.get(id=nid)
     departmentData.delete()
     return redirect('/department/index/')
+
+def getJob_index(request):
+    if request.method == 'GET':
+        return render(request, 'getjob_index.html')
+
+    return render(request, 'getjob_index.html')
