@@ -141,8 +141,8 @@ def department_delete(request, nid):
     departmentData.delete()
     return redirect('/department/index/')
 
-def getJob_index(request):
-    if request.method == 'GET':
-        return render(request, 'getjob_index.html')
+def getJob_index(request, param):
 
-    return render(request, 'getjob_index.html')
+    query_list = models.BossJobs.objects.all().order_by('create_time')
+    head_list = models.BossJobs._meta.fields
+    return render(request, 'getjob_index.html', {'query_list': query_list, 'head_list': head_list})
