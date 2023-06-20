@@ -1,49 +1,59 @@
 {% extends 'layout.html' %}
+{% block style %}
+<style>
+    td {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading">
-            <form class="form-inline" action="/menu/getJob/index/">
+        <div class="panel-body">
+            <form class="form-inline" action="/menu/getJob/index/" method="get">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请输入职位名称:">
+                        <input type="text" class="form-control" name="param" placeholder="请输入职位名称:">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success">搜索</button>
             </form>
         </div>
-        <div class="panel-body">
+        <div class="data-table">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>序号</th>
-                        {% with exclude='id'|add:'create_time' %}
-                        {% for head in head_list %}
-                        {% if head.name not in exclude %}
-                        <th>{{ head.verbose_name }}</th>
-                        {% endif %}
-                        {% endfor %}
-                        {% endwith %}
-                    </tr>
+                <tr>
+                    <th>序号</th>
+                    {% with exclude='id'|add:'create_time' %}
+                    {% for head in head_list %}
+                    {% if head.name not in exclude %}
+                    <th>{{ head.verbose_name }}</th>
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </tr>
                 </thead>
                 <tbody>
-                    {% for item in query_list %}
-                    <tr>
-                        <th scope="row" style="text-align: center">{{ forloop.count }}</th>
-                        <td>{{ item.job_title }}</td>
-                        <td>{{ item.location }}</td>
-                        <td>{{ item.salary }}</td>
-                        <td>{{ item.experience }}</td>
-                        <td>{{ item.education }}</td>
-                        <td>{{ item.hr }}</td>
-                        <td>{{ item.status }}</td>
-                        <td>{{ item.job_url }}</td>
-                        <td>{{ item.organization_name }}</td>
-                        <td>{{ item.organization_size }}</td>
-                        <td>{{ item.company_url }}</td>
-                    </tr>
-                    {% endfor %}
+                {% for item in query_list %}
+                <tr>
+                    <th scope="row" style="text-align: center">{{ forloop.counter }}</th>
+                    <td>{{ item.job_title }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.salary }}</td>
+                    <td>{{ item.experience }}</td>
+                    <td>{{ item.education }}</td>
+                    <td>{{ item.hr }}</td>
+                    <td>{{ item.status }}</td>
+                    <td><a href="{{ item.job_url }}">{{ item.job_url }}</a></td>
+                    <td>{{ item.organization_name }}</td>
+                    <td>{{ item.organization_size }}</td>
+                    <td><a href="{{ item.company_url }}">{{ item.company_url }}</a></td>
+                </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

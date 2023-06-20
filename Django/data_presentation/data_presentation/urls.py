@@ -31,5 +31,5 @@ urlpatterns = [
     path('department/<int:nid>/edit/', views.department_edit),
     path('department/<int:nid>/delete/', views.department_delete),
     path('menu/getJob/index/', views.getJob_index),
-    path('menu/getJob/index/<str:param>/', views.getJob_index)
+    path('menu/lease/index/', views.lease_index)
 ]

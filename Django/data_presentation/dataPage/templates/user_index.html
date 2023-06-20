@@ -2,57 +2,60 @@
 {% block content %}
 <div class="container">
     <div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading"><b>用户列表</b></div>
-      <div class="panel-body">
-          <a class="btn btn-success btn-xs" href="/user/add/"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;</i>添加用户</a>
-      </div>
-
-      <!-- Table -->
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="text-align: center">
-              序号
-            </th>
-            {% with exclude='id'|add:'password' %}
-            {% for head in user_head %}
-            {% if head.name not in exclude %}
-            <th>{{ head.verbose_name }}</th>
-            {% endif %}
-            {% endfor %}
-            {% endwith %}
-            <th>
-              操作
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for info in user_info %}
-          <tr>
-            <th scope="row" style="text-align: center">{{ forloop.counter}}</th>
-            <td>{{ info.username }}</td>
-            <td>{{ info.age }}</td>
-            <td>{{ info.account }}</td>
-            <td>{{ info.depart }}</td>
-            <td>
-              {% if info.gender == 1 %}
-              男
-              {% else %}
-              女
-              {% endif %}
-            </td>
-            <td>{{ info.create_time }}</td>
-            <td>
-              <a class="btn btn-primary btn-xs" href="/user/{{ info.id }}/edit/"><i class="fa fa-edit" aria-hidden="true">&nbsp;&nbsp;</i>编辑</a>
-              <a class="btn btn-danger btn-xs" href="/user/{{ info.id }}/delete/"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>删除</a>
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+        <!-- Default panel contents -->
+        <div class="panel-heading"><b>用户列表</b></div>
+        <div class="panel-body">
+            <a class="btn btn-success btn-xs" href="/user/add/"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;</i>添加用户</a>
+        </div>
+        <div class="data-table">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="text-align: center">
+                        序号
+                    </th>
+                    {% with exclude='id'|add:'password' %}
+                    {% for head in user_head %}
+                    {% if head.name not in exclude %}
+                    <th>{{ head.verbose_name }}</th>
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for info in user_info %}
+                <tr>
+                    <th scope="row" style="text-align: center">{{ forloop.counter}}</th>
+                    <td>{{ info.username }}</td>
+                    <td>{{ info.age }}</td>
+                    <td>{{ info.account }}</td>
+                    <td>{{ info.depart }}</td>
+                    <td>
+                        {% if info.gender == 1 %}
+                        男
+                        {% else %}
+                        女
+                        {% endif %}
+                    </td>
+                    <td>{{ info.create_time }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="/user/{{ info.id }}/edit/"><i class="fa fa-edit"
+                                                                                              aria-hidden="true">&nbsp;&nbsp;</i>编辑</a>
+                        <a class="btn btn-danger btn-xs" href="/user/{{ info.id }}/delete/"><i class="fa fa-trash-o"
+                                                                                               aria-hidden="true">&nbsp;&nbsp;</i>删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %}
 {% block script %}
 {% endblock %}

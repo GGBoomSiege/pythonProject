@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django import forms
 from dataPage import models
+from django.db.models import Q
+from dataPage.get_jobs import *
+import re
 
 
 # Create your views here.
@@ -141,8 +144,34 @@ def department_delete(request, nid):
     departmentData.delete()
     return redirect('/department/index/')
 
-def getJob_index(request, param):
-
-    query_list = models.BossJobs.objects.all().order_by('create_time')
+def getJob_index(request):
     head_list = models.BossJobs._meta.fields
+    if request.GET.get('param'):
+        param = request.GET.get('param')
+        # print(param)
+        if models.BossJobs.objects.filter(Q(job_title__contains=param)).exists():
+            query_list = models.BossJobs.objects.filter(Q(job_title__contains=param)).order_by('create_time')
+        else:
+            jobs = clean_data(get_jobs(param))
+            for item in jobs:
+                models.BossJobs.objects.create(
+                    job_title = item[0]['job_title'],
+                    location = item[0]['location'],
+                    salary = item[0]['salary'],
+                    experience = item[0]['experience'],
+                    education = item[0]['education'],
+                    hr = item[0]['hr'],
+                    status = item[0]['status'],
+                    job_url = item[1]['job_url'],
+                    organization_name = item[2]['organization_name'],
+                    organization_size = '-'.join(re.findall(r'\d+',item[2]['organization_size'])[-2:]),
+                    company_url = item[3]['company_url']
+                )
+            query_list = models.BossJobs.objects.filter(Q(job_title__contains=param)).order_by('create_time')
+        return render(request, 'getjob_index.html', {'query_list': query_list, 'head_list': head_list})
+    query_list = models.BossJobs.objects.all().order_by('create_time')
+    # print('false')
     return render(request, 'getjob_index.html', {'query_list': query_list, 'head_list': head_list})
+
+def lease_index(request):
+    return render(request, 'lease_index.html')
