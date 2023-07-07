@@ -7,7 +7,16 @@ from urllib.parse import quote
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException
 from itertools import zip_longest
+from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base
+import datetime
+import uuid
 
+def unique_lease_id():
+    unique_lease_id_lst = [datetime.datetime.now().strftime('%Y%m%d'), str(uuid.uuid4().int % (10 ** 8))]
+    unique_lease_id = int(''.join(unique_lease_id_lst))
+    return unique_lease_id
 
 def get_jobs(JOB_KEY):
     # 创建一个webdriver对象，指定浏览器类型和驱动程序路径
@@ -24,6 +33,7 @@ def get_jobs(JOB_KEY):
     service_log_path = 'chromedriver.log'
     service.service_log_path = service_log_path
     driver = webdriver.Chrome(options=options, service=service)
+    driver.set_window_size(1920, 1080)
     driver.minimize_window()
 
     # 打开目标网页
@@ -93,7 +103,6 @@ def get_jobs(JOB_KEY):
     driver.quit()
     return infos
 
-
 def clean_data(data):
     '''
     {
@@ -131,17 +140,68 @@ def clean_data(data):
         clear_data.append([job_info, job_url, company_info, company_url])
     return clear_data
 
+def run_database(data):
+    # 创建连接引擎
+    engine = create_engine('mysql+pymysql://root:operator_123456@192.168.3.234/job_info')
+
+    # 创建会话工厂
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    # 创建映射类
+    Base = declarative_base()
+
+    class JobInfomation(Base):
+        __tablename__ = 'job_infomation'
+        id = Column(BigInteger, primary_key=True, default=unique_lease_id)
+        job_title = Column(String(64))
+        location = Column(String(64))
+        salary = Column(String(64))
+        experience = Column(String(64))
+        education = Column(String(64))
+        hr = Column(String(64))
+        status = Column(String(64))
+        job_url = Column(Text(65535))
+        organization_name = Column(String(64))
+        organization_size = Column(String(64))
+        company_url = Column(Text(65535))
+
+    Base.metadata.create_all(engine)
+    session.query(JobInfomation).delete()
+
+    # 创建对象并插入数据
+    for item in data:
+        obj = JobInfomation(
+            job_title=item[0]['job_title'],
+            location=item[0]['location'],
+            salary=item[0]['salary'],
+            experience=item[0]['experience'],
+            education=item[0]['education'],
+            hr=item[0]['hr'],
+            status=item[0]['status'],
+            job_url=item[1]['job_url'],
+            organization_name=item[2]['organization_name'],
+            organization_size=item[2]['organization_size'],
+            company_url=item[3]['company_url']
+        )
+        session.add(obj)
+
+    session.commit()
+    # 关闭会话
+    session.close()
+
 
 if __name__ == '__main__':
     try:
-        JOB_KEY = input('请输入需要查询的岗位名称:')
-        # JOB_KEY = '运维工程师'
+        # JOB_KEY = input('请输入需要查询的岗位名称:')
+        JOB_KEY = '运维工程师'
     except Exception as e:
         print("您的输入有误，请重新输入。")
     jobs = clean_data(get_jobs(JOB_KEY))
-    for item in jobs:
-        print(
-            item[0]['job_title'], item[0]['location'], item[0]['salary'], item[0]['experience'], item[0]['education'], item[0]['hr'], item[0]['status'],
-            item[1]['job_url'], item[2]['organization_name'], item[2]['organization_size'],
-            item[3]['company_url']
-        )
+    run_database(jobs)
+    # for item in jobs:
+    #     print(
+    #         item[0]['job_title'], item[0]['location'], item[0]['salary'], item[0]['experience'], item[0]['education'], item[0]['hr'], item[0]['status'],
+    #         item[1]['job_url'], item[2]['organization_name'], item[2]['organization_size'],
+    #         item[3]['company_url']
+    #     )
