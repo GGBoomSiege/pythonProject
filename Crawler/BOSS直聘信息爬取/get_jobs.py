@@ -18,7 +18,7 @@ def unique_lease_id():
     unique_lease_id = int(''.join(unique_lease_id_lst))
     return unique_lease_id
 
-def get_jobs(JOB_KEY):
+def init_driver():
     # 创建一个webdriver对象，指定浏览器类型和驱动程序路径
     options = webdriver.ChromeOptions()
     # options.add_argument('--headless')
@@ -34,73 +34,37 @@ def get_jobs(JOB_KEY):
     service.service_log_path = service_log_path
     driver = webdriver.Chrome(options=options, service=service)
     driver.set_window_size(1920, 1080)
-    driver.minimize_window()
+    # driver.minimize_window()
+    return driver
 
-    # 打开目标网页
-    url = f"https://www.zhipin.com/web/geek/job?query={quote(JOB_KEY)}&city=101190400"
-    driver.get(url)
-
-    wait = WebDriverWait(driver, 60)
-    # 定位搜索框元素，输入关键词
-    # element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
-    # search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
-    # search_box.send_keys("运维工程师")
-
-    # 定位搜索按钮元素，点击搜索
-    # search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
-    # ActionChains(driver).move_to_element(search_button).click().perform()
+def get_jobs(driver, wait, url):
     infos = []
-    while True:
-        try:
-            # 获取当前页面的所有职位元素
-            element = wait.until(
-                EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
-            jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
-            for item in jobs:
-                element = wait.until(EC.presence_of_element_located(
-                    (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
-                job_titles = item.find_elements(By.XPATH,
-                                                "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-                # print(job_titles[0].text)
-                # print(job_titles[0].get_attribute('href'))
-                company_titles = item.find_elements(By.XPATH,
-                                                    "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-                # print(company_titles[0].text)
-                company_urls = item.find_elements(By.XPATH,
-                                                  "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-                # print(company_urls[0].get_attribute('href'))
+    try:
+        driver.get(url)
 
-            infos.extend([[job_titles[i].text, job_titles[i].get_attribute('href'), company_titles[i].text,
-                           company_urls[i].get_attribute('href')] for i in range(len(job_titles))])
-            # break
+        # 获取当前页面的所有职位元素
+        element = wait.until(
+            EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
+        jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
+        for item in jobs:
+            element = wait.until(EC.presence_of_element_located(
+                (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
+            job_titles = item.find_elements(By.XPATH,
+                                            "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
+            # print(job_titles[0].text)
+            # print(job_titles[0].get_attribute('href'))
+            company_titles = item.find_elements(By.XPATH,
+                                                "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
+            # print(company_titles[0].text)
+            company_urls = item.find_elements(By.XPATH,
+                                              "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
+            # print(company_urls[0].get_attribute('href'))
 
-            if (len(driver.find_elements(By.XPATH,
-                                         "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
-                end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                        "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-                if 'disabled' in end_button.get_attribute('class'):
-                    break
-                else:
-                    try:
-                        end_button.click()
-                    except StaleElementReferenceException:
-                        end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                                "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-                        end_button.click()
-            else:
-                end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                        "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-                try:
-                    end_button.click()
-                except StaleElementReferenceException:
-                    end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                            "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-                    end_button.click()
-        except Exception as e:
-            continue
+        infos.extend([[job_titles[i].text, job_titles[i].get_attribute('href'), company_titles[i].text,
+                       company_urls[i].get_attribute('href')] for i in range(len(job_titles))])
+    except Exception as e:
+        print(e)
 
-    # 关闭浏览器
-    driver.quit()
     return infos
 
 def clean_data(data):
@@ -190,18 +154,37 @@ def run_database(data):
     # 关闭会话
     session.close()
 
+def run(JOB_KEY,CITY_KEY):
+    infos = []
+    origin_url = f"https://www.zhipin.com/web/geek/job?query={quote(JOB_KEY)}&city={quote(CITY_KEY)}&page="
+    page = 1
+    while True:
+        url = origin_url + str(page)
+        driver = init_driver()
+        wait = WebDriverWait(driver, 60)
+        infos.extend(get_jobs(driver, wait, url))
+        if (len(driver.find_elements(By.XPATH,
+                                     "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
+            end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                    "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
+            if 'disabled' in end_button.get_attribute('class'):
+                break
+            else:
+                page += 1
+        else:
+            page += 1
+        driver.quit()
+    return infos
+
 
 if __name__ == '__main__':
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
-        JOB_KEY = '运维工程师'
+        JOB_KEY = '运维'
+        CITY_KEY = '101190400'
     except Exception as e:
         print("您的输入有误，请重新输入。")
-    jobs = clean_data(get_jobs(JOB_KEY))
+    jobs = clean_data(run(JOB_KEY, CITY_KEY))
     run_database(jobs)
-    # for item in jobs:
-    #     print(
-    #         item[0]['job_title'], item[0]['location'], item[0]['salary'], item[0]['experience'], item[0]['education'], item[0]['hr'], item[0]['status'],
-    #         item[1]['job_url'], item[2]['organization_name'], item[2]['organization_size'],
-    #         item[3]['company_url']
-    #     )
+
+
