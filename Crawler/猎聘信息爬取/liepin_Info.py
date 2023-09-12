@@ -42,7 +42,7 @@ def get_jobs(JOB_KEY,CITY_KEY):
     driver.minimize_window()
 
     # 打开目标网页
-    url = f"https://www.zhipin.com/web/geek/job?query={quote(JOB_KEY)}&city={CITY_KEY}"
+    url = f"https://www.liepin.com/zhaopin/?city={CITY_KEY}&dq={CITY_KEY}&pubTime=&currentPage=0&pageSize=40&key={quote(JOB_KEY)}&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&otherCity=&sfrom=search_job_pc&ckId=isivsmzbgzeibtsjqurom9v4r2jb8x3b&skId=q67zaeewylkoo52qt1rkiwz1tfgg5nrb&fkId=isivsmzbgzeibtsjqurom9v4r2jb8x3b&scene=input&suggestId="
     driver.get(url)
     print(url)
 
@@ -56,78 +56,90 @@ def get_jobs(JOB_KEY,CITY_KEY):
     # search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
     # ActionChains(driver).move_to_element(search_button).click().perform()
     infos = []
-    while True:
-        try:
+    flag = int(wait.until(
+        EC.presence_of_element_located((By.XPATH, "//li[@class='ant-pagination-item ant-pagination-item-10']/a"))).text)
+    # while True:
+    #     try:
             # 获取当前页面的所有职位元素
-            element = wait.until(
-                EC.presence_of_element_located((By.XPATH, "//ul[contains(@class,'job-list-box')]")))
-            jobs = driver.find_elements(By.XPATH, "//ul[contains(@class,'job-list-box')]")
-            for item in jobs:
-                element = wait.until(EC.presence_of_element_located(
-                    (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
-                job_titles = item.find_elements(By.XPATH,
-                                                "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-                # print(job_titles[0].text)
-                # print(job_titles[0].get_attribute('href'))
-                company_titles = item.find_elements(By.XPATH,
-                                                    "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-                # print(company_titles[0].text)
-                company_urls = item.find_elements(By.XPATH,
-                                                  "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-                # print(company_urls[0].get_attribute('href'))
+    element = wait.until(
+        EC.presence_of_element_located((By.XPATH, "//div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']")))
+    jobs_title = driver.find_elements(By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']")
+    jobs_location = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 ellipsis-1']")
+    salary = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 job-salary']")
+    jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896']")
+    company_titles = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 company-name ellipsis-1']")
+    company_size = driver.find_elements(By.XPATH, "//div[@class='jsx-2693574896 company-tags-box ellipsis-1']")
 
-            flag = 0
+    print(flag)
+    print(len(jobs_url))
 
-            for i in range(len(job_titles)):
-                if job_titles[i].text.find('猎头') != -1:
-                    infos.extend([
-                        [
-                            job_titles[i].text,
-                            job_titles[i].get_attribute('href'),
-                            '',
-                            ''
-                        ]
-                    ])
-                else:
-                    infos.extend([
-                        [
-                            job_titles[i].text,
-                            job_titles[i].get_attribute('href'),
-                            company_titles[flag].text,
-                            company_urls[flag].get_attribute('href')
-                        ]
-                    ])
-                    flag += 1
 
-            if (len(driver.find_elements(By.XPATH,
-                                         "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
-                end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                        "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-                if 'disabled' in end_button.get_attribute('class'):
-                    break
-                else:
-                    try:
-                        url = driver.current_url
-                        end_button.click()
-                    except StaleElementReferenceException:
-                        end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                                "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-                        url = driver.current_url
-                        end_button.click()
-            else:
-                end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                        "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-                try:
-                    url = driver.current_url
-                    end_button.click()
-                except StaleElementReferenceException:
-                    end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                            "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-                    url = driver.current_url
-                    end_button.click()
-            print(url)
-        except Exception as e:
-            continue
+            # for item in jobs:
+            #     element = wait.until(EC.presence_of_element_located(
+            #         (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
+            #     job_titles = item.find_elements(By.XPATH,
+            #                                     "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
+            #     # print(job_titles[0].text)
+            #     # print(job_titles[0].get_attribute('href'))
+            #     company_titles = item.find_elements(By.XPATH,
+            #                                         "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
+            #     # print(company_titles[0].text)
+            #     company_urls = item.find_elements(By.XPATH,
+            #                                       "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
+            #     # print(company_urls[0].get_attribute('href'))
+
+            # flag = 0
+            #
+            # for i in range(len(job_titles)):
+            #     if job_titles[i].text.find('猎头') != -1:
+            #         infos.extend([
+            #             [
+            #                 job_titles[i].text,
+            #                 job_titles[i].get_attribute('href'),
+            #                 '',
+            #                 ''
+            #             ]
+            #         ])
+            #     else:
+            #         infos.extend([
+            #             [
+            #                 job_titles[i].text,
+            #                 job_titles[i].get_attribute('href'),
+            #                 company_titles[flag].text,
+            #                 company_urls[flag].get_attribute('href')
+            #             ]
+            #         ])
+            #         flag += 1
+
+        #     if (len(driver.find_elements(By.XPATH,
+        #                                  "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
+        #         end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+        #                                                                 "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
+        #         if 'disabled' in end_button.get_attribute('class'):
+        #             break
+        #         else:
+        #             try:
+        #                 url = driver.current_url
+        #                 end_button.click()
+        #             except StaleElementReferenceException:
+        #                 end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+        #                                                                         "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
+        #                 url = driver.current_url
+        #                 end_button.click()
+        #     else:
+        #         end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+        #                                                                 "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
+        #         try:
+        #             url = driver.current_url
+        #             end_button.click()
+        #         except StaleElementReferenceException:
+        #             end_button = wait.until(EC.presence_of_element_located((By.XPATH,
+        #                                                                     "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
+        #             url = driver.current_url
+        #             end_button.click()
+        #     print(url)
+        # except Exception as e:
+        #     continue
 
     # 关闭浏览器
     driver.quit()
@@ -288,12 +300,13 @@ if __name__ == '__main__':
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
         JOB_KEY = '运维'
-        # CITY_KEY = '101190400' # 苏州
-        CITY_KEY = '101190200' # 无锡
+        CITY_KEY = '060080' # 苏州
+        # CITY_KEY = '060100' # 无锡
     except Exception as e:
         print("您的输入有误，请重新输入。")
-    jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
-    run_database(jobs)
+    # jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
+    jobs = get_jobs(JOB_KEY, CITY_KEY)
+    # run_database(jobs)
     # for item in jobs:
     #     print(
     #         item[0]['job_title'], item[0]['location'], item[0]['salary'], item[0]['experience'], item[0]['education'], item[0]['hr'], item[0]['status'],
