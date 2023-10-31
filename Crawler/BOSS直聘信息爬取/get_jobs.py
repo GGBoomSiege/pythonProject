@@ -34,7 +34,7 @@ def get_jobs(JOB_KEY,CITY_KEY):
     # options = webdriver.ChromeOptions()
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
     options.add_argument(f"user-agent={user_agent}")
-    service = webdriver.chrome.service.Service(executable_path=r"D:\Python-3.11\chromedriver.exe")
+    service = webdriver.chrome.service.Service(executable_path=r"E:\Python\Python312\chromedriver.exe")
     service_log_path = 'chromedriver.log'
     service.service_log_path = service_log_path
     driver = webdriver.Chrome(options=options, service=service)
@@ -186,7 +186,7 @@ def clean_data(data):
 
 def run_database(data):
     # 创建连接引擎
-    engine = create_engine('mysql+pymysql://root:operator_123456@192.168.3.234/job_info')
+    engine = create_engine('mysql+pymysql://root:operator_123456@127.0.0.1/job_info')
 
     # 创建会话工厂
     Session = sessionmaker(bind=engine)
@@ -288,8 +288,8 @@ if __name__ == '__main__':
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
         JOB_KEY = '运维'
-        # CITY_KEY = '101190400' # 苏州
-        CITY_KEY = '101190200' # 无锡
+        CITY_KEY = '101190400' # 苏州
+        # CITY_KEY = '101190200' # 无锡
     except Exception as e:
         print("您的输入有误，请重新输入。")
     jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
