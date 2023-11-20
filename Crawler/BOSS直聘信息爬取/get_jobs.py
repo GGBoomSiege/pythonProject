@@ -34,6 +34,7 @@ def get_jobs(JOB_KEY,CITY_KEY):
     # options = webdriver.ChromeOptions()
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
     options.add_argument(f"user-agent={user_agent}")
+    options.add_argument('--ignore-certificate-errors')
     service = webdriver.chrome.service.Service(executable_path=r"E:\Python\Python312\chromedriver.exe")
     service_log_path = 'chromedriver.log'
     service.service_log_path = service_log_path
