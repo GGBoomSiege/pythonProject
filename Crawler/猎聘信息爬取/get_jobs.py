@@ -66,12 +66,17 @@ def get_jobs():
 
     sleep(5)
 
+    element = wait.until(
+                EC.presence_of_element_located((By.XPATH, "//div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']"))) 
     end_button = wait.until(EC.presence_of_element_located(
         (By.XPATH, "//li[@class='ant-pagination-next']/button[@class='ant-pagination-item-link']/span[@class='anticon anticon-right']")))
     while True:
         element = wait.until(
-                EC.presence_of_element_located((By.XPATH, "//div[@class='jsx-2297469327 job-card-pc-container']")))
+                EC.presence_of_element_located((By.XPATH, "//div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']")))
         print(element.text)
+
+        # for item in element:
+        #     print(item)
         sleep(1)
         end_button.click()
         try:
@@ -83,4 +88,4 @@ def get_jobs():
 
 
 if __name__ == '__main__':
-    pass
+    get_jobs()

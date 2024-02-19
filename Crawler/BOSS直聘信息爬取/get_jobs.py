@@ -289,8 +289,8 @@ if __name__ == '__main__':
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
         JOB_KEY = '运维'
-        CITY_KEY = '101190400' # 苏州
-        # CITY_KEY = '101190200' # 无锡
+        # CITY_KEY = '101190400' # 苏州
+        CITY_KEY = '101190200' # 无锡
     except Exception as e:
         print("您的输入有误，请重新输入。")
     jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
