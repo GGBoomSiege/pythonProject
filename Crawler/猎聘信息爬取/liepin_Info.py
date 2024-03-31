@@ -13,192 +13,108 @@ from sqlalchemy.orm import declarative_base
 import datetime
 import uuid
 import time
+import random
 
-url = ''
+url = ""
 
 
 def unique_lease_id():
-    unique_lease_id_lst = [datetime.datetime.now().strftime('%Y%m%d'), str(uuid.uuid4().int % (10 ** 8))]
-    unique_lease_id = int(''.join(unique_lease_id_lst))
+    unique_lease_id_lst = [
+        datetime.datetime.now().strftime("%Y%m%d"),
+        str(uuid.uuid4().int % (10**8)),
+    ]
+    unique_lease_id = int("".join(unique_lease_id_lst))
     return unique_lease_id
 
 
-def get_jobs(JOB_KEY,CITY_KEY):
+def get_jobs(JOB_KEY, CITY_KEY):
     # 创建一个webdriver对象，指定浏览器类型和驱动程序路径
     options = webdriver.ChromeOptions()
-    # options.add_argument('--headless')
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
 
-    # options = webdriver.ChromeOptions()
-    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-    options.add_argument(f"user-agent={user_agent}")
-    service = webdriver.chrome.service.Service(executable_path=r"D:\Python-3.11\chromedriver.exe")
-    service_log_path = 'chromedriver.log'
-    service.service_log_path = service_log_path
-    driver = webdriver.Chrome(options=options, service=service)
-    driver.set_window_size(1920, 1080)
-    driver.minimize_window()
+    options.add_experimental_option("debuggerAddress", "127.0.0.1:9922")
+    driver = webdriver.Chrome(options=options)
 
     # 打开目标网页
-    url = f"https://www.liepin.com/zhaopin/?city={CITY_KEY}&dq={CITY_KEY}&pubTime=&currentPage=0&pageSize=40&key={quote(JOB_KEY)}&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&otherCity=&sfrom=search_job_pc&ckId=isivsmzbgzeibtsjqurom9v4r2jb8x3b&skId=q67zaeewylkoo52qt1rkiwz1tfgg5nrb&fkId=isivsmzbgzeibtsjqurom9v4r2jb8x3b&scene=input&suggestId="
+    url = f"https://www.liepin.com/zhaopin/?city={CITY_KEY}&dq={CITY_KEY}&pubTime=&currentPage=0&pageSize=40&key={quote(JOB_KEY)}&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&ckId=73xe2opyoxbwi79rfqd969yc3v7mpib9&scene=page&skId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&fkId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&sfrom=search_job_pc&suggestId="
     driver.get(url)
-    print(url)
+    # print(url)
 
     wait = WebDriverWait(driver, 60)
-    # 定位搜索框元素，输入关键词
-    # element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[contains(@name,'query')]")))
-    # search_box = driver.find_element(By.XPATH, "//input[contains(@name,'query')]")
-    # search_box.send_keys("运维工程师")
 
-    # 定位搜索按钮元素，点击搜索
-    # search_button = driver.find_element(By.XPATH, "//button[contains(@class,'btn-search')]")
-    # ActionChains(driver).move_to_element(search_button).click().perform()
     infos = []
-    flag = int(wait.until(
-        EC.presence_of_element_located((By.XPATH, "//li[@class='ant-pagination-item ant-pagination-item-10']/a"))).text)
-    # while True:
-    #     try:
+
+    while True:
+        try:
             # 获取当前页面的所有职位元素
-    element = wait.until(
-        EC.presence_of_element_located((By.XPATH, "//div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']")))
-    jobs_title = driver.find_elements(By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']")
-    jobs_location = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 ellipsis-1']")
-    salary = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 job-salary']")
-    jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896']")
-    company_titles = driver.find_elements(By.XPATH, "//span[@class='jsx-2693574896 company-name ellipsis-1']")
-    company_size = driver.find_elements(By.XPATH, "//div[@class='jsx-2693574896 company-tags-box ellipsis-1']")
+            wait.until(
+                EC.presence_of_element_located(
+                    (
+                        By.XPATH,
+                        "//div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
+                    )
+                )
+            )
+            jobs_title = driver.find_elements(
+                By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
+            )
+            jobs_location = driver.find_elements(
+                By.XPATH, "//span[@class='jsx-2693574896 ellipsis-1']"
+            )
+            salary = driver.find_elements(
+                By.XPATH, "//span[@class='jsx-2693574896 job-salary']"
+            )
+            # jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896']")
+            jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896 ']")
+            company_titles = driver.find_elements(
+                By.XPATH, "//span[@class='jsx-2693574896 company-name ellipsis-1']"
+            )
+            company_size = driver.find_elements(
+                By.XPATH, "//div[@class='jsx-2693574896 company-tags-box ellipsis-1']"
+            )
 
-    print(flag)
-    print(len(jobs_url))
+            # print(flag)
+            # print(len(jobs_url))
 
+            for num in range(len(jobs_title)):
+                infos.extend(
+                    [
+                        {
+                            "job_title": jobs_title[num].text,
+                            "job_location": jobs_location[num].text,
+                            "salary": salary[num].text,
+                            "job_url": jobs_url[num].get_attribute("href"),
+                            "company_title": company_titles[num].text,
+                            "company_size": company_size[num].text,
+                        }
+                    ]
+                )
 
-            # for item in jobs:
-            #     element = wait.until(EC.presence_of_element_located(
-            #         (By.XPATH, "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")))
-            #     job_titles = item.find_elements(By.XPATH,
-            #                                     "//div[@class='job-card-body clearfix']/a[@class='job-card-left']")
-            #     # print(job_titles[0].text)
-            #     # print(job_titles[0].get_attribute('href'))
-            #     company_titles = item.find_elements(By.XPATH,
-            #                                         "//div[@class='job-card-body clearfix']/div[@class='job-card-right']")
-            #     # print(company_titles[0].text)
-            #     company_urls = item.find_elements(By.XPATH,
-            #                                       "//div[@class='job-card-body clearfix']/div[@class='job-card-right']/div[@class='company-info']/h3[@class='company-name']/a")
-            #     # print(company_urls[0].get_attribute('href'))
+            end_button = wait.until(
+                EC.presence_of_element_located(
+                    (
+                        By.XPATH,
+                        "//li[contains(@class,'ant-pagination-next')]",
+                    )
+                )
+            )
 
-            # flag = 0
-            #
-            # for i in range(len(job_titles)):
-            #     if job_titles[i].text.find('猎头') != -1:
-            #         infos.extend([
-            #             [
-            #                 job_titles[i].text,
-            #                 job_titles[i].get_attribute('href'),
-            #                 '',
-            #                 ''
-            #             ]
-            #         ])
-            #     else:
-            #         infos.extend([
-            #             [
-            #                 job_titles[i].text,
-            #                 job_titles[i].get_attribute('href'),
-            #                 company_titles[flag].text,
-            #                 company_urls[flag].get_attribute('href')
-            #             ]
-            #         ])
-            #         flag += 1
-
-        #     if (len(driver.find_elements(By.XPATH,
-        #                                  "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[contains(text(), '...')]")) == 1):
-        #         end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-        #                                                                 "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-        #         if 'disabled' in end_button.get_attribute('class'):
-        #             break
-        #         else:
-        #             try:
-        #                 url = driver.current_url
-        #                 end_button.click()
-        #             except StaleElementReferenceException:
-        #                 end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-        #                                                                         "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[10]")))
-        #                 url = driver.current_url
-        #                 end_button.click()
-        #     else:
-        #         end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-        #                                                                 "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-        #         try:
-        #             url = driver.current_url
-        #             end_button.click()
-        #         except StaleElementReferenceException:
-        #             end_button = wait.until(EC.presence_of_element_located((By.XPATH,
-        #                                                                     "//div[@class='pagination-area']/div[@class='pager text-center']/div[@class='options-pages']/a[11]")))
-        #             url = driver.current_url
-        #             end_button.click()
-        #     print(url)
-        # except Exception as e:
-        #     continue
+            if "disabled" in end_button.get_attribute("class"):
+                break
+            else:
+                time.sleep(random.randint(1, 4))
+                end_button.click()
+        except Exception as e:
+            print(driver.current_url)
+            continue
 
     # 关闭浏览器
     driver.quit()
     return infos
 
 
-def clean_data(data):
-    '''
-    {
-        "job_info" : {
-            "job_title": "运维工程师",
-            "location": "北京",
-            "salary": "面议",
-            "experience": "1-3年",
-            "education": "本科",
-            "hr": "王女士",
-            "status": "在线",
-        },
-        "job_url": "https://www.zhipin.com/job/101190400-101190500/?query=运维工程师&city=101190400",
-        "company_info" : {
-            "organization_name": "马太科技",
-            "organization_size":"互联网不需要融资100-499人"
-        },
-        "company_url": "https://www.zhipin.com/company/101190400-101190500/"
-    }
-    '''
-    job_info_lst = ["job_title", "location", "salary", "experience", "education", "hr", "status"]
-    job_url_lst = ["job_url"]
-    company_info_lst = ["organization_name", "organization_size"]
-    company_url_lst = ["company_url"]
-    job_info = {}
-    job_url = {}
-    company_info = {}
-    company_url = {}
-    clear_data = []
-    for item in range(len(data)):
-        if company_info == '' and company_url == '':
-            job_info = {key: value for key, value in zip_longest(job_info_lst, data[item][0].split('\n'), fillvalue="")}
-            job_url = {key: value for key, value in zip_longest(job_url_lst, [data[item][1]], fillvalue="")}
-            company_info = {
-                "organization_name": "",
-                "organization_size": ""
-            }
-            company_url = {
-                "company_url": ""
-            }
-        else:
-            job_info = {key: value for key, value in zip_longest(job_info_lst, data[item][0].split('\n'), fillvalue="")}
-            job_url = {key: value for key, value in zip_longest(job_url_lst, [data[item][1]], fillvalue="")}
-            company_info = {key: value for key, value in
-                            zip_longest(company_info_lst, data[item][2].split('\n'), fillvalue="")}
-            company_url = {key: value for key, value in zip_longest(company_url_lst, [data[item][3]], fillvalue="")}
-        clear_data.append([job_info, job_url, company_info, company_url])
-    return clear_data
-
-
 def run_database(data):
     # 创建连接引擎
-    engine = create_engine('mysql+pymysql://root:operator_123456@192.168.3.234/job_info')
+    engine = create_engine("mysql+pymysql://root:operator_123456@127.0.0.1/liepin_info")
 
     # 创建会话工厂
     Session = sessionmaker(bind=engine)
@@ -208,19 +124,14 @@ def run_database(data):
     Base = declarative_base()
 
     class JobInfomation(Base):
-        __tablename__ = 'job_infomation'
+        __tablename__ = "job_infomation"
         id = Column(BigInteger, primary_key=True, default=unique_lease_id)
         job_title = Column(String(64))
         location = Column(String(64))
         salary = Column(String(64))
-        experience = Column(String(64))
-        education = Column(String(64))
-        hr = Column(String(64))
-        status = Column(String(64))
         job_url = Column(Text(65535))
         organization_name = Column(String(64))
         organization_size = Column(String(64))
-        company_url = Column(Text(65535))
 
     Base.metadata.create_all(engine)
     session.query(JobInfomation).delete()
@@ -228,27 +139,25 @@ def run_database(data):
     # 创建对象并插入数据
     for item in data:
         obj = JobInfomation(
-            job_title=item[0]['job_title'],
-            location=item[0]['location'],
-            salary=item[0]['salary'],
-            experience=item[0]['experience'],
-            education=item[0]['education'],
-            hr=item[0]['hr'],
-            status=item[0]['status'],
-            job_url=item[1]['job_url'],
-            organization_name=item[2]['organization_name'],
-            organization_size=item[2]['organization_size'],
-            company_url=item[3]['company_url']
+            job_title=item["job_title"],
+            location=item["job_location"],
+            salary=item["salary"],
+            job_url=item["job_url"],
+            organization_name=item["company_title"],
+            organization_size=item["company_size"],
         )
         session.add(obj)
 
     session.commit()
     # 关闭会话
     session.close()
+
 
 def get_database():
     # 创建连接引擎
-    engine = create_engine('mysql+pymysql://root:operator_123456@192.168.3.234/job_info')
+    engine = create_engine(
+        "mysql+pymysql://root:operator_123456@192.168.3.234/job_info"
+    )
 
     # 创建会话工厂
     Session = sessionmaker(bind=engine)
@@ -258,7 +167,7 @@ def get_database():
     Base = declarative_base()
 
     class JobInfomation(Base):
-        __tablename__ = 'job_infomation'
+        __tablename__ = "job_infomation"
         id = Column(BigInteger, primary_key=True, default=unique_lease_id)
         job_title = Column(String(64))
         location = Column(String(64))
@@ -278,17 +187,17 @@ def get_database():
     # 创建对象并插入数据
     for item in data:
         obj = JobInfomation(
-            job_title=item[0]['job_title'],
-            location=item[0]['location'],
-            salary=item[0]['salary'],
-            experience=item[0]['experience'],
-            education=item[0]['education'],
-            hr=item[0]['hr'],
-            status=item[0]['status'],
-            job_url=item[1]['job_url'],
-            organization_name=item[2]['organization_name'],
-            organization_size=item[2]['organization_size'],
-            company_url=item[3]['company_url']
+            job_title=item[0]["job_title"],
+            location=item[0]["location"],
+            salary=item[0]["salary"],
+            experience=item[0]["experience"],
+            education=item[0]["education"],
+            hr=item[0]["hr"],
+            status=item[0]["status"],
+            job_url=item[1]["job_url"],
+            organization_name=item[2]["organization_name"],
+            organization_size=item[2]["organization_size"],
+            company_url=item[3]["company_url"],
         )
         session.add(obj)
 
@@ -296,20 +205,15 @@ def get_database():
     # 关闭会话
     session.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
-        JOB_KEY = '运维'
-        CITY_KEY = '060080' # 苏州
+        JOB_KEY = "运维"
+        CITY_KEY = "060080"  # 苏州
         # CITY_KEY = '060100' # 无锡
     except Exception as e:
         print("您的输入有误，请重新输入。")
     # jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
     jobs = get_jobs(JOB_KEY, CITY_KEY)
-    # run_database(jobs)
-    # for item in jobs:
-    #     print(
-    #         item[0]['job_title'], item[0]['location'], item[0]['salary'], item[0]['experience'], item[0]['education'], item[0]['hr'], item[0]['status'],
-    #         item[1]['job_url'], item[2]['organization_name'], item[2]['organization_size'],
-    #         item[3]['company_url']
-    #     )
+    run_database(jobs)
