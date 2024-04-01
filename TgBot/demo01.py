@@ -21,6 +21,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def test(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """响应test命令"""
+    text = "你好~我是一个bot"
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=f"text+{update.effective_chat.id}"
+    )
+
+
 async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text="我不会这个哦~"
