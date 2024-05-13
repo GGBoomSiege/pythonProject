@@ -6,7 +6,7 @@ function sign() {
   back();
   sleep(1500);
   click(542, 2215);
-  sleep(3000);
+  sleep(6000);
 
   if (!requestScreenCapture()) {
     toast("请求截图失败");
@@ -29,7 +29,7 @@ function sign() {
     click(540, 1700);
     sleep(3000);
     click(540, 1700);
-    sleep(1000);
+    sleep(3000);
     back();
   }
 
@@ -41,10 +41,10 @@ function sign() {
 function points() {
   // 点击我
   click(971, 2215);
-  sleep(3000);
+  sleep(5000);
 
   click(381, 1070);
-  sleep(3000);
+  sleep(5000);
 
   if (!requestScreenCapture()) {
     toast("请求截图失败");
