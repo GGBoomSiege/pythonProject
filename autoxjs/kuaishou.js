@@ -44,6 +44,14 @@ function kuaishou() {
     swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
     sleep(500);
     back();
+    // 判断是否切换其他应用
+    var current = currentPackage();
+    // toastLog(current);
+    if (!(current == "com.kuaishou.nebula")) {
+      home();
+      sleep(1000);
+      app.launch("com.kuaishou.nebula");
+    }
     sleep(10 * 1000);
     click(756, 2230);
     sleep(1000);

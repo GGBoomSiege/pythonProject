@@ -84,6 +84,14 @@ function douyin() {
     swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
     sleep(1000);
     back();
+    // 判断是否切换其他应用
+    var current = currentPackage();
+    // toastLog(current);
+    if (!(current == "com.ss.android.ugc.aweme.lite")) {
+      home();
+      sleep(1000);
+      app.launch("com.ss.android.ugc.aweme.lite");
+    }
     sleep(10 * 1000);
 
     // 点击赚钱
