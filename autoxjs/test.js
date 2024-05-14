@@ -69,7 +69,7 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 289, 1318, 116, 30);
+  var startup = images.clip(img, 514, 1774, 54, 42);
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // if (startup) {
   //   var width = img.getWidth();

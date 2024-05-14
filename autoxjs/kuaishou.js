@@ -44,6 +44,18 @@ function kuaishou() {
     swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
     sleep(500);
     back();
+    sleep(500);
+    // 判断是否有多余图片
+    var sign = images.read("./kuaishou/kuaishou_cancle.png");
+    var img = captureScreen();
+    var result = findImage(img, sign);
+    if (!(result === null)) {
+      click(result.x + 27, result.y + 21);
+    }
+    sign.recycle();
+    img.recycle();
+    sleep(500);
+
     // 判断是否切换其他应用
     var current = currentPackage();
     // toastLog(current);
