@@ -117,7 +117,7 @@ function main() {
   sleep(2000);
   app.launch("com.kuaishou.nebula");
   waitForPackage("com.kuaishou.nebula");
-  waitForActivity("com.yxcorp.gifshow.HomeActivity");
+  // waitForActivity("com.yxcorp.gifshow.HomeActivity");
   sleep(3000);
   sign();
   kuaishou();

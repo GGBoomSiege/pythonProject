@@ -153,7 +153,7 @@ function main() {
   sleep(2000);
   app.launch("com.ss.android.article.lite");
   waitForPackage("com.ss.android.article.lite");
-  waitForActivity("com.ss.android.article.lite.activity.SplashActivity");
+  // waitForActivity("com.ss.android.article.lite.activity.SplashActivity");
   sign();
   toutiao();
 }

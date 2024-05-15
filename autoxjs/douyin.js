@@ -150,7 +150,7 @@ function backMain() {
 function runMain() {
   app.launch("com.ss.android.ugc.aweme.lite");
   waitForPackage("com.ss.android.ugc.aweme.lite");
-  waitForActivity("com.ss.android.ugc.aweme.main.MainActivity");
+  // waitForActivity("com.ss.android.ugc.aweme.main.MainActivity");
 }
 
 function main() {
