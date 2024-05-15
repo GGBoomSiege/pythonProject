@@ -6,7 +6,7 @@ function sign() {
   back();
   sleep(1500);
   click(542, 2215);
-  sleep(6000);
+  sleep(10000);
 
   if (!requestScreenCapture()) {
     toast("请求截图失败");
