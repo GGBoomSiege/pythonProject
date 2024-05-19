@@ -15,7 +15,7 @@ function sign() {
 
   var img = captureScreen();
   var result = findImage(img, sign);
-  log(result);
+  // log(result);
 
   // 执行签到操作，并返回
   if (result === null) {
@@ -78,7 +78,7 @@ function kuaishou() {
 
     var img = captureScreen();
     var result = findImage(img, sign);
-    log(result);
+    // log(result);
 
     // 点击宝箱，并返回
     if (result === null) {
@@ -117,10 +117,12 @@ function main() {
   sleep(2000);
   app.launch("com.kuaishou.nebula");
   waitForPackage("com.kuaishou.nebula");
-  // waitForActivity("com.yxcorp.gifshow.HomeActivity");
+  waitForActivity("com.yxcorp.gifshow.HomeActivity");
   sleep(3000);
+  log("开始执行快手脚本", new Date().toLocaleString());
   sign();
   kuaishou();
+  log("结束执行快手脚本", new Date().toLocaleString());
 }
 
 main();

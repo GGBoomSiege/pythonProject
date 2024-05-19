@@ -1,15 +1,15 @@
 device.wakeUp();
 sleep(1000);
 
-var sign = images.read("./kuaishou/kuaishou_cancle.png");
+// var sign = images.read("./kuaishou/kuaishou_cancle.png");
 
-var img = captureScreen();
-var result = findImage(img, sign);
+// var img = captureScreen();
+// var result = findImage(img, sign);
 
-if (!(result === null)) {
-  toastLog(result.x + 27);
-  toastLog(result.y + 21);
-}
+// if (!(result === null)) {
+//   toastLog(result.x + 27);
+//   toastLog(result.y + 21);
+// }
 
 // bounds("(48,2180,131,2257)")
 // var x = (687 + 825) / 2;
@@ -65,3 +65,5 @@ if (!(result === null)) {
 // }
 
 // app.launch("com.kuaishou.nebula");
+
+log("123", new Date().toLocaleString());

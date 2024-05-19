@@ -6,35 +6,47 @@ function sign() {
   back();
   sleep(1500);
   click(542, 2215);
-  sleep(10000);
+  sleep(3000);
 
   if (!requestScreenCapture()) {
     toast("请求截图失败");
     exit();
   }
 
-  // 导入签到图片
-  var sign = images.read("./douyin/douyin_sign.png");
+  var sign = images.read("./douyin/pre_sign.png");
 
   var img = captureScreen();
   var result = findImage(img, sign);
-  // log(result);
+  sign.recycle();
+  img.recycle();
 
-  // 执行签到操作，并返回
   if (result === null) {
-    back();
+    // 导入签到图片
+    var sign = images.read("./douyin/douyin_sign.png");
+
+    var img = captureScreen();
+    var result = findImage(img, sign);
+    // log(result);
+
+    // 执行签到操作，并返回
+    if (result === null) {
+      back();
+    } else {
+      click(result.x, result.y);
+      sleep(3000);
+      click(540, 1700);
+      sleep(3000);
+      click(540, 1700);
+      sleep(3000);
+      back();
+    }
+
+    sign.recycle();
+    img.recycle();
   } else {
     click(result.x, result.y);
     sleep(3000);
-    click(540, 1700);
-    sleep(3000);
-    click(540, 1700);
-    sleep(3000);
-    back();
   }
-
-  sign.recycle();
-  img.recycle();
 }
 
 // 积分签到
@@ -56,7 +68,7 @@ function points() {
 
   var img = captureScreen();
   var result = findImage(img, sign);
-  toastLog(result);
+  // toastLog(result);
 
   // 执行签到操作，并返回
   if (result === null) {
@@ -108,7 +120,7 @@ function douyin() {
 
     var img = captureScreen();
     var result = findImage(img, sign);
-    log(result);
+    // log(result);
 
     // 点击宝箱，并返回
     if (result === null) {
@@ -151,11 +163,14 @@ function runMain() {
   app.launch("com.ss.android.ugc.aweme.lite");
   waitForPackage("com.ss.android.ugc.aweme.lite");
   // waitForActivity("com.ss.android.ugc.aweme.main.MainActivity");
+  sleep(3000);
+  back();
 }
 
 function main() {
   device.wakeUp();
   sleep(2000);
+  log("开始执行抖音脚本", new Date().toLocaleString());
   // 运行抖音
   runMain();
 
@@ -163,24 +178,38 @@ function main() {
   click(542, 2215);
   sleep(3000);
   back();
-  sleep(1500);
-  click(542, 2215);
   sleep(3000);
+  click(542, 2215);
+  sleep(10000);
 
   // 关闭抖音
   backMain();
   sleep(2000);
+
   // 运行抖音
+  runMain();
+  sleep(2000);
+  backMain();
+  sleep(2000);
+
+  runMain();
+  sleep(2000);
+  points();
+  sleep(2000);
+  backMain();
+  sleep(2000);
+
   runMain();
   sleep(2000);
   sign();
   sleep(2000);
   backMain();
   sleep(2000);
+
   runMain();
   sleep(2000);
-  points();
   douyin();
+  log("结束执行抖音脚本", new Date().toLocaleString());
 }
 
 main();

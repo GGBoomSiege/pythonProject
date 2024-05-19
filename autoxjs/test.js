@@ -69,7 +69,7 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 514, 1774, 54, 42);
+  var startup = images.clip(img, 326, 1674, 191, 55);
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // if (startup) {
   //   var width = img.getWidth();
@@ -96,7 +96,7 @@ function readImage() {
   // longClick(result.x + 152 / 2, result.y + 152 / 2);
 
   startup.recycle();
-  // img.recycle();
+  img.recycle();
 }
 
 // device.wakeUp();

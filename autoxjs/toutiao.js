@@ -153,9 +153,11 @@ function main() {
   sleep(2000);
   app.launch("com.ss.android.article.lite");
   waitForPackage("com.ss.android.article.lite");
-  // waitForActivity("com.ss.android.article.lite.activity.SplashActivity");
+  log("开始执行头条脚本", new Date().toLocaleString());
+  waitForActivity("com.ss.android.article.lite.activity.SplashActivity");
   sign();
   toutiao();
+  log("结束执行头条脚本", new Date().toLocaleString());
 }
 
 main();
