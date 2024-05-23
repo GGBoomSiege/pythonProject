@@ -72,7 +72,7 @@ function sign() {
   }
 
   var preSign = images.read("./douyin/pre_sign.png");
-  var preResult = waitForImage(preSign, 5000);
+  var preResult = waitForImage(preSign, 3000);
   preSign.recycle();
 
   if (preResult) {
@@ -80,7 +80,7 @@ function sign() {
   } else {
     // 导入签到图片
     var sign = images.read("./douyin/douyin_sign.png");
-    var result = waitForImage(sign, 5000);
+    var result = waitForImage(sign, 3000);
     sign.recycle();
 
     // 执行签到操作，并返回
@@ -100,9 +100,9 @@ function sign() {
 function points() {
   // 点击我
   click(971, 2215);
-  sleep(5000);
+  sleep(3000);
   click(381, 1070);
-  sleep(5000);
+  sleep(3000);
 
   if (!requestScreenCapture()) {
     toast("请求截图失败");
@@ -111,13 +111,13 @@ function points() {
 
   // 导入积分签到图片
   var sign = images.read("./douyin/douyin_points.png");
-  var result = waitForImage(sign, 5000);
+  var result = waitForImage(sign, 3000);
   sign.recycle();
 
   // 执行签到操作，并返回
   if (result) {
     click(result.x, result.y);
-    sleep(5000);
+    sleep(3000);
     back();
   } else {
     back();
@@ -135,7 +135,6 @@ function douyin() {
   sleep(1000);
   back();
 
-  // toastLog(current);
   if (!(currentPackage() === "com.ss.android.ugc.aweme.lite")) {
     runMain();
   }
@@ -152,15 +151,16 @@ function douyin() {
 
   // 导入宝箱图片
   var sign = images.read("./douyin/douyin_baoxiang.png");
-  var result = waitForImage(sign, 5000);
+  var result = waitForImage(sign, 3000);
   sign.recycle();
 
   // 点击宝箱，并返回
   if (result) {
     click(result.x, result.y);
-    sleep(1000);
-    back();
-  } else {
+    sleep(3000);
+    click(522, 1598);
+    sleep(5000);
+    douyin_ad(); // 点击广告
   }
 
   // back();
@@ -168,46 +168,50 @@ function douyin() {
 
 //   看广告赚金币
 function douyin_ad() {
-  let douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
-  let douyin_ad_flag_point = waitForImage(douyin_ad_flag, 5000);
-  douyin_ad_flag.recycle();
-
-  if (douyin_ad_flag_point) {
-    let douyin_ad_img = images.read("./douyin/douyin_ad.png");
-    let douyin_ad_point = waitForRegionImage(douyin_ad_img, douyin_ad_flag_point.x, douyin_ad_flag_point.y, 870, 194, 5000);
-    douyin_ad_img.recycle();
-
-    if (douyin_ad_point) {
-      click(douyin_ad_point.x, douyin_ad_point.y);
-      //   判断是否看完
-      var count = 0;
-      while (count < 3) {
-        var douyin_ad_success = images.read("./douyin/douyin_ad_success.png");
-        var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 40000);
-        douyin_ad_success.recycle();
-
-        // 判断是否有领取成功标识
-        if (douyin_ad_success_point) {
-          click(douyin_ad_success_point.x, douyin_ad_success_point.y);
-          sleep(1000);
-          click(540, 1360);
-          count++;
-        } else {
-          break;
-        }
-      }
-      sleep(1500);
-      back();
-      sleep(1500);
-      back();
+  //   判断是否看完
+  let count = 0;
+  while (count < 4) {
+    // 判断是否跳转进下载页
+    var douyin_ad_download_cancle = images.read("./douyin/douyin_ad_download_cancle.png");
+    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 40000);
+    douyin_ad_download_cancle.recycle();
+    if (douyin_ad_download_cancle_point) {
+      click(douyin_ad_download_cancle_point.x, douyin_ad_download_cancle_point.y);
     }
+
+    // 判断是否观看完成
+    var douyin_ad_success = images.read("./douyin/douyin_ad_success.png");
+    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 5000);
+    douyin_ad_success.recycle();
+    if (douyin_ad_success_point) {
+      click(douyin_ad_success_point.x, douyin_ad_success_point.y);
+      sleep(2000);
+
+      // 判断是否有继续标识
+      var douyin_ad_continue = images.read("./douyin/douyin_ad_continue.png");
+      var douyin_ad_continue_point = waitForImage(douyin_ad_continue, 5000);
+      douyin_ad_continue.recycle();
+      if (douyin_ad_continue_point) {
+        click(douyin_ad_continue_point.x, douyin_ad_continue_point.y);
+      }
+      sleep(2000);
+    }
+    // 判断是否完成
+    var douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
+    var douyin_ad_complete_point = waitForImage(douyin_ad_complete, 5000);
+    douyin_ad_complete.recycle();
+    if (douyin_ad_complete_point) {
+      click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
+      sleep(1000);
+      break;
+    }
+    count++;
   }
 }
 
 function executeAndWait() {
   // 在这里可以执行你需要的任何代码
   douyin();
-  sleep(10 * 1000);
 
   // 动态调整间隔时间的逻辑
   let douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
@@ -220,13 +224,17 @@ function executeAndWait() {
     douyin_ad_img.recycle();
 
     if (douyin_ad_point) {
+      click(douyin_ad_point.x, douyin_ad_point.y);
+      sleep(5000);
       douyin_ad(); // 点击广告
+      sleep(1500);
+      back();
     }
   }
 
-  sleep(1000);
+  sleep(1500);
   back();
-  sleep(1000);
+  sleep(1500);
 }
 
 function backMain() {
@@ -300,5 +308,5 @@ function main() {
 
 const startTime = Date.now();
 const timeout = 210 * 60 * 1000;
-log(timeout);
+
 main();

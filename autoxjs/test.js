@@ -66,34 +66,34 @@ function readImage() {
 
   // var startup = images.read("./startup.png");
   // var img = images.read("./img.png");
-  // var img = images.read("../Pictures/Screenshots/123.jpg");
+  var img = images.read("../Pictures/Screenshots/123.jpg");
 
-  // // 截取小图
-  // var startup = images.clip(img, 172, 1395, 278, 59);
-  // // 175 1395 453 1454
+  // 截取小图
+  var startup = images.clip(img, 376, 1558, 329, 54);
+  // 376 1558 705 1612
 
-  // images.save(startup, "../Pictures/Screenshots/temp.png");
-  var startup = images.read("./douyin/douyin_ad_flag.png");
-  var img = captureScreen();
-  var startup_point = images.findImage(img, startup);
+  images.save(startup, "../Pictures/Screenshots/temp.png");
+  // var startup = images.read("./douyin/douyin_ad_flag.png");
+  // var img = captureScreen();
+  // var startup_point = images.findImage(img, startup);
   startup.recycle();
   img.recycle();
 
   // var point = images.findImage(img, startup);
-  if (startup_point) {
-    var startup = images.read("./douyin/douyin_ad.png");
-    var img = captureScreen();
-    var found = images.findImage(img, startup, {
-      region: [startup_point.x, startup_point.y, 870, 194],
-    });
-    if (found) {
-      log(found);
-    } else {
-      log("未找到图片found");
-    }
-  } else {
-    log("未找到图片startup_point");
-  }
+  // if (startup_point) {
+  //   var startup = images.read("./douyin/douyin_ad.png");
+  //   var img = captureScreen();
+  //   var found = images.findImage(img, startup, {
+  //     region: [startup_point.x, startup_point.y, 870, 194],
+  //   });
+  //   if (found) {
+  //     log(found);
+  //   } else {
+  //     log("未找到图片found");
+  //   }
+  // } else {
+  //   log("未找到图片startup_point");
+  // }
 
   // if (startup) {
   //   var width = img.getWidth();
@@ -138,10 +138,10 @@ function main() {
   // }
 }
 
-// main();
+main();
 
-const startTime = Date.now();
-sleep(2000);
-const endTime = Date.now();
+// const startTime = Date.now();
+// sleep(2000);
+// const endTime = Date.now();
 
-log(endTime - startTime);
+// log(endTime - startTime);
