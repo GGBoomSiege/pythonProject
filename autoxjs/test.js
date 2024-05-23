@@ -66,11 +66,35 @@ function readImage() {
 
   // var startup = images.read("./startup.png");
   // var img = images.read("./img.png");
-  var img = images.read("../Pictures/Screenshots/123.jpg");
+  // var img = images.read("../Pictures/Screenshots/123.jpg");
 
-  // 截取小图
-  var startup = images.clip(img, 326, 1674, 191, 55);
-  images.save(startup, "../Pictures/Screenshots/temp.png");
+  // // 截取小图
+  // var startup = images.clip(img, 172, 1395, 278, 59);
+  // // 175 1395 453 1454
+
+  // images.save(startup, "../Pictures/Screenshots/temp.png");
+  var startup = images.read("./douyin/douyin_ad_flag.png");
+  var img = captureScreen();
+  var startup_point = images.findImage(img, startup);
+  startup.recycle();
+  img.recycle();
+
+  // var point = images.findImage(img, startup);
+  if (startup_point) {
+    var startup = images.read("./douyin/douyin_ad.png");
+    var img = captureScreen();
+    var found = images.findImage(img, startup, {
+      region: [startup_point.x, startup_point.y, 870, 194],
+    });
+    if (found) {
+      log(found);
+    } else {
+      log("未找到图片found");
+    }
+  } else {
+    log("未找到图片startup_point");
+  }
+
   // if (startup) {
   //   var width = img.getWidth();
   //   var height = img.getHeight();
@@ -94,12 +118,30 @@ function readImage() {
   // toastLog(result.x + 152 / 2);
   // toastLog(result.y + 152 / 2);
   // longClick(result.x + 152 / 2, result.y + 152 / 2);
-
-  startup.recycle();
-  img.recycle();
 }
 
-// device.wakeUp();
-// toast("good job!");
-// temp();
-readImage();
+function runMain() {
+  app.launch("com.ss.android.ugc.aweme.lite");
+  waitForPackage("com.ss.android.ugc.aweme.lite");
+  // waitForActivity("com.ss.android.ugc.aweme.main.MainActivity");
+  sleep(3000);
+  back();
+}
+
+function main() {
+  device.wakeUp();
+  // toast("good job!");
+  // temp();
+  readImage();
+  // if (!(currentPackage() === "com.ss.android.ugc.aweme.lite")) {
+  //   runMain();
+  // }
+}
+
+// main();
+
+const startTime = Date.now();
+sleep(2000);
+const endTime = Date.now();
+
+log(endTime - startTime);

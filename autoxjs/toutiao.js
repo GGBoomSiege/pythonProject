@@ -144,7 +144,7 @@ function toutiao() {
     id("action_menu_item_child_text").className("android.widget.TextView").text("结束运行").findOne().parent().click();
     sleep(1000);
     click("确定");
-    home();
+    back();
   }, 210 * 60 * 1000);
 }
 
