@@ -1,19 +1,69 @@
-// "ui";
-// ui.layout(
-//   <vertical h="100dp">
-//     <text layout_weight="1" text="控件1" bg="#ff0000" />
-//     <text layout_weight="1" text="控件2" bg="#00ff00" />
-//     <text layout_weight="1" text="控件3" bg="#0000ff" />
-//   </vertical>
-// );
+// 定义一个函数来等待图片出现 (普通图片)
+function waitForImage(image, timeout, threshold) {
+  threshold = threshold || 0.9;
+  var startTime = Date.now();
+  while (true) {
+    var screenshot = captureScreen();
+    var found = images.findImage(screenshot, image, {
+      threshold: threshold,
+    });
+    log(found);
+    if (found) {
+      screenshot.recycle();
+      return found;
+    }
+    if (Date.now() - startTime > timeout) {
+      log("等待超时");
+      screenshot.recycle();
+      return null;
+    }
+    sleep(1000); // 每秒检查一次
+  }
+}
 
-// home();
+// 定义一个函数来等待图片出现 (灰度图片)
+function waitForGrayscaleImage(image, timeout, threshold) {
+  threshold = threshold || 0.9;
+  var startTime = Date.now();
+  while (true) {
+    var screenshot = captureScreen();
+    var found = images.findImage(images.grayscale(screenshot), images.grayscale(image), {
+      threshold: threshold,
+    });
+    screenshot.recycle();
+    if (found) {
+      return found;
+    }
+    if (Date.now() - startTime > timeout) {
+      log("等待超时");
+      return null;
+    }
+    sleep(1000); // 每秒检查一次
+  }
+}
 
-// if (text("文件").findOne(3000)) {
-//   log("已经找到了");
-// } else {
-//   log("没有找到");
-// }
+// 定义一个函数来等待图片出现 (区域找图)
+function waitForRegionImage(image, x, y, width, height, timeout, threshold) {
+  threshold = threshold || 0.9;
+  var startTime = Date.now();
+  while (true) {
+    var screenshot = captureScreen();
+    var found = images.findImage(screenshot, image, {
+      region: [x, y, width, height],
+      threshold: threshold,
+    });
+    screenshot.recycle();
+
+    if (found) {
+      return found;
+    }
+    if (Date.now() - startTime > timeout) {
+      log("等待超时");
+      return null;
+    }
+    sleep(1000); // 每秒检查一次
+  }
+}
 
 function run() {
   let text = ["你好啊", "不好", "很好"];
@@ -41,16 +91,6 @@ function http() {
   alert("运行完成！");
 }
 
-function temp() {
-  // app.launch("io.cpen.mobile");
-  // waitForPackage("com.google.android.googlequicksearchbox");
-  // log("1");
-  // className("android.view.View").desc("@cPenCoreTeam").waitFor();
-  // log("3");
-  var path1 = files.cwd();
-  log(path1);
-}
-
 function readImage() {
   // app.launch("io.cpen.mobile");
   // waitForPackage("io.cpen.mobile");
@@ -69,8 +109,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 376, 1558, 329, 54);
-  // 376 1558 705 1612
+  var startup = images.clip(img, 118, 2176, 70, 30);
+  // 106 2163 190 2210
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -128,6 +168,18 @@ function runMain() {
   back();
 }
 
+function temp() {
+  var athene_rewards = images.read("./appStartUp/athene_rewards.png");
+  var athene_rewards_result = waitForImage(athene_rewards, 10000);
+  athene_rewards.recycle();
+
+  if (athene_rewards_result) {
+    log(athene_rewards_result.x, athene_rewards_result.y);
+    // click(athene_rewards_result.x, athene_rewards_result.y);
+    sleep(1000);
+  }
+}
+
 function main() {
   device.wakeUp();
   // toast("good job!");
@@ -138,10 +190,17 @@ function main() {
   // }
 }
 
-main();
+const x = device.width;
+const y = device.height;
+// main();
+temp();
 
 // const startTime = Date.now();
 // sleep(2000);
 // const endTime = Date.now();
 
 // log(endTime - startTime);
+
+// log(currentPackage());
+// log(currentActivity());
+// click{70, 1650}

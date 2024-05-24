@@ -85,17 +85,24 @@ function douyin_ad() {
   douyin_ad.recycle();
 }
 
+function test(a, b, threshold) {
+  threshold = threshold || 1;
+
+  log(a, b, threshold);
+}
+
 function main() {
   //   看广告赚金币
   //   douyin_ad();
 
-  let douyin_ad_img = images.read("./douyin/douyin_ad.png");
-  //   let point = waitForRegionImage(douyin_ad_img, 819, 1432, 218, 94, 5000);
-  var point = images.findImage(captureScreen(), douyin_ad_img, {
-    region: [819, 1432, 218, 94],
-    threshold: 0.9,
-  });
-  log(point);
+  // let douyin_ad_img = images.read("./douyin/douyin_ad.png");
+  // //   let point = waitForRegionImage(douyin_ad_img, 819, 1432, 218, 94, 5000);
+  // var point = images.findImage(captureScreen(), douyin_ad_img, {
+  //   region: [819, 1432, 218, 94],
+  //   threshold: 0.9,
+  // });
+  // log(point);
+  test(123, 123, 0.8);
 }
 
 main();

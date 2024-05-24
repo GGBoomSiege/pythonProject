@@ -1,9 +1,12 @@
 // 定义一个函数来等待图片出现 (普通图片)
-function waitForImage(image, timeout) {
+function waitForImage(image, timeout, threshold) {
+  threshold = threshold || 0.9;
   var startTime = Date.now();
   while (true) {
     var screenshot = captureScreen();
-    var found = images.findImage(screenshot, image);
+    var found = images.findImage(screenshot, image, {
+      threshold: threshold,
+    });
     screenshot.recycle();
     if (found) {
       return found;
@@ -17,11 +20,14 @@ function waitForImage(image, timeout) {
 }
 
 // 定义一个函数来等待图片出现 (灰度图片)
-function waitForGrayscaleImage(image, timeout) {
+function waitForGrayscaleImage(image, timeout, threshold) {
+  threshold = threshold || 0.9;
   var startTime = Date.now();
   while (true) {
     var screenshot = captureScreen();
-    var found = images.findImage(images.grayscale(screenshot), images.grayscale(image));
+    var found = images.findImage(images.grayscale(screenshot), images.grayscale(image), {
+      threshold: threshold,
+    });
     screenshot.recycle();
     if (found) {
       return found;
@@ -35,12 +41,14 @@ function waitForGrayscaleImage(image, timeout) {
 }
 
 // 定义一个函数来等待图片出现 (区域找图)
-function waitForRegionImage(image, x, y, width, height, timeout) {
+function waitForRegionImage(image, x, y, width, height, timeout, threshold) {
+  threshold = threshold || 0.9;
   var startTime = Date.now();
   while (true) {
     var screenshot = captureScreen();
     var found = images.findImage(screenshot, image, {
       region: [x, y, width, height],
+      threshold: threshold,
     });
     screenshot.recycle();
 
@@ -49,7 +57,6 @@ function waitForRegionImage(image, x, y, width, height, timeout) {
     }
     if (Date.now() - startTime > timeout) {
       log("等待超时");
-
       return null;
     }
     sleep(1000); // 每秒检查一次
@@ -65,11 +72,6 @@ function sign() {
   sleep(1500);
   click(542, 2215);
   sleep(3000);
-
-  if (!requestScreenCapture()) {
-    toast("请求截图失败");
-    exit();
-  }
 
   var preSign = images.read("./douyin/pre_sign.png");
   var preResult = waitForImage(preSign, 3000);
@@ -104,11 +106,6 @@ function points() {
   click(381, 1070);
   sleep(3000);
 
-  if (!requestScreenCapture()) {
-    toast("请求截图失败");
-    exit();
-  }
-
   // 导入积分签到图片
   var sign = images.read("./douyin/douyin_points.png");
   var result = waitForImage(sign, 3000);
@@ -128,8 +125,6 @@ function points() {
 }
 
 function douyin() {
-  var x = device.width;
-  var y = device.height;
   // 执行滑动操作
   swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
   sleep(1000);
@@ -144,17 +139,28 @@ function douyin() {
   click(542, 2215);
   sleep(1000);
 
-  if (!requestScreenCapture()) {
-    toast("请求截图失败");
-    exit();
-  }
+  sleep(2000);
+  // // 滑动页面寻找广告区
+  // while (true) {
+  //   var douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
+  //   var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 1000);
+  //   douyin_ad_flag.recycle();
+
+  //   if (douyin_ad_flag_point) {
+  //     break;
+  //   } else {
+  //     swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+  //   }
+  // }
+
+  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
   // 导入宝箱图片
   var sign = images.read("./douyin/douyin_baoxiang.png");
   var result = waitForImage(sign, 3000);
   sign.recycle();
 
-  // 点击宝箱，并返回
+  // 点击宝箱
   if (result) {
     click(result.x, result.y);
     sleep(3000);
@@ -169,11 +175,11 @@ function douyin() {
 //   看广告赚金币
 function douyin_ad() {
   //   判断是否看完
-  let count = 0;
-  while (count < 4) {
+  var count = 0;
+  while (count < 3) {
     // 判断是否跳转进下载页
     var douyin_ad_download_cancle = images.read("./douyin/douyin_ad_download_cancle.png");
-    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 40000);
+    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 40000, 0.8);
     douyin_ad_download_cancle.recycle();
     if (douyin_ad_download_cancle_point) {
       click(douyin_ad_download_cancle_point.x, douyin_ad_download_cancle_point.y);
@@ -181,7 +187,7 @@ function douyin_ad() {
 
     // 判断是否观看完成
     var douyin_ad_success = images.read("./douyin/douyin_ad_success.png");
-    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 5000);
+    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 5000, 0.8);
     douyin_ad_success.recycle();
     if (douyin_ad_success_point) {
       click(douyin_ad_success_point.x, douyin_ad_success_point.y);
@@ -189,7 +195,7 @@ function douyin_ad() {
 
       // 判断是否有继续标识
       var douyin_ad_continue = images.read("./douyin/douyin_ad_continue.png");
-      var douyin_ad_continue_point = waitForImage(douyin_ad_continue, 5000);
+      var douyin_ad_continue_point = waitForImage(douyin_ad_continue, 5000, 0.8);
       douyin_ad_continue.recycle();
       if (douyin_ad_continue_point) {
         click(douyin_ad_continue_point.x, douyin_ad_continue_point.y);
@@ -198,43 +204,59 @@ function douyin_ad() {
     }
     // 判断是否完成
     var douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
-    var douyin_ad_complete_point = waitForImage(douyin_ad_complete, 5000);
+    var douyin_ad_complete_point = waitForImage(douyin_ad_complete, 5000, 0.8);
     douyin_ad_complete.recycle();
     if (douyin_ad_complete_point) {
       click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
       sleep(1000);
       break;
     }
+
+    // 判断是否完成
+    var douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
+    var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000, 0.8);
+    douyin_ad_flag.recycle();
+    if (douyin_ad_flag_point) {
+      break;
+    }
+
     count++;
   }
 }
 
 function executeAndWait() {
-  // 在这里可以执行你需要的任何代码
   douyin();
 
-  // 动态调整间隔时间的逻辑
-  let douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
-  let douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000);
+  var douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
+  var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000);
   douyin_ad_flag.recycle();
 
   if (douyin_ad_flag_point) {
-    let douyin_ad_img = images.read("./douyin/douyin_ad.png");
-    let douyin_ad_point = waitForRegionImage(douyin_ad_img, douyin_ad_flag_point.x, douyin_ad_flag_point.y, 870, 194, 3000);
+    var douyin_ad_img = images.read("./douyin/douyin_ad.png");
+    var douyin_ad_point = waitForRegionImage(douyin_ad_img, douyin_ad_flag_point.x, douyin_ad_flag_point.y, 870, 194, 3000);
     douyin_ad_img.recycle();
 
     if (douyin_ad_point) {
       click(douyin_ad_point.x, douyin_ad_point.y);
       sleep(5000);
       douyin_ad(); // 点击广告
-      sleep(1500);
-      back();
     }
   }
 
-  sleep(1500);
+  while (true) {
+    var douyin_flag = images.read("./douyin/douyin_flag.png");
+    var douyin_flag_result = waitForImage(douyin_flag, 1000);
+    douyin_flag.recycle();
+
+    if (douyin_flag_result) {
+      break;
+    } else {
+      swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
+    }
+  }
+
   back();
-  sleep(1500);
+  sleep(1000);
 }
 
 function backMain() {
@@ -257,6 +279,7 @@ function runMain() {
 
 function main() {
   device.wakeUp();
+  auto.waitFor();
 
   sleep(2000);
   log("开始执行抖音脚本");
@@ -305,6 +328,14 @@ function main() {
   log("结束执行抖音脚本，运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
   backMain();
 }
+
+if (!requestScreenCapture()) {
+  toast("请求截图权限失败");
+  exit();
+}
+
+const x = device.width;
+const y = device.height;
 
 const startTime = Date.now();
 const timeout = 210 * 60 * 1000;
