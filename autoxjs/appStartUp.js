@@ -60,6 +60,7 @@ function atheneStart() {
     exit();
   }
 
+  // 判断是否进入应用
   var athene_index = images.read("./appStartUp/athene_index.png");
   var athene_index_result = waitForImage(athene_index, 60000, 0.8);
   athene_index.recycle();
@@ -68,6 +69,7 @@ function atheneStart() {
     log(athene_index_result.x, athene_index_result.y);
   }
 
+  // 判断是否有额外页面
   var athene_cancle = images.read("./appStartUp/athene_cancle.png");
   var athene_cancle_result = waitForImage(athene_cancle, 10000);
   athene_cancle.recycle();
@@ -76,6 +78,16 @@ function atheneStart() {
     click(athene_cancle_result.x, athene_cancle_result.y);
   }
 
+  // 判断是否签到
+  var athene_sign = images.read("./appStartUp/athene_sign.png");
+  var athene_sign_result = waitForImage(athene_sign, 10000);
+  athene_sign.recycle();
+
+  if (athene_sign_result) {
+    click(athene_sign_result.x, athene_sign_result.y);
+  }
+
+  // 进入挖矿页
   var athene_main = images.read("./appStartUp/athene_main.png");
   var athene_main_result = waitForImage(athene_main, 10000);
   athene_main.recycle();
@@ -83,6 +95,7 @@ function atheneStart() {
   if (athene_main_result) {
     click(athene_main_result.x, athene_main_result.y);
 
+    // 判断是否开始
     var athene_startup = images.read("./appStartUp/athene_startup.png");
     var athene_startup_result = waitForImage(athene_startup, 10000);
     athene_startup.recycle();
@@ -92,6 +105,7 @@ function atheneStart() {
       sleep(1000);
     }
 
+    // 判断是否领取
     var athene_rewards = images.read("./appStartUp/athene_rewards.png");
     var athene_rewards_result = waitForImage(athene_rewards, 10000);
     athene_rewards.recycle();

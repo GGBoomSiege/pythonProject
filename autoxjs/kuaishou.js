@@ -176,6 +176,15 @@ function kuaishou_ad() {
         click(kuaishou_ad_continue_point.x, kuaishou_ad_continue_point.y);
       }
       sleep(2000);
+
+      // 判断是否有跳过标识
+      var kuaishou_ad_skip = images.read("./kuaishou/kuaishou_ad_skip.png");
+      var kuaishou_ad_skip_point = waitForImage(kuaishou_ad_skip, 5000, 0.8);
+      kuaishou_ad_skip.recycle();
+      if (kuaishou_ad_skip_point) {
+        click(kuaishou_ad_skip_point.x, kuaishou_ad_skip_point.y);
+      }
+      sleep(2000);
     }
 
     // 判断是否完成

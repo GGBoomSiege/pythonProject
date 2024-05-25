@@ -109,8 +109,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 118, 2176, 70, 30);
-  // 106 2163 190 2210
+  var startup = images.clip(img, 473, 1536, 133, 40);
+  // 606 1575
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -192,8 +192,8 @@ function main() {
 
 const x = device.width;
 const y = device.height;
-// main();
-temp();
+main();
+// temp();
 
 // const startTime = Date.now();
 // sleep(2000);
