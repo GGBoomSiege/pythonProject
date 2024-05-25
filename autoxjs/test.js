@@ -109,8 +109,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 525, 1505, 30, 29);
-  // 557 1533
+  var startup = images.clip(img, 505, 2132, 72, 72);
+  // 582 2210
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -169,14 +169,44 @@ function runMain() {
 }
 
 function temp() {
-  let nova_cancle = images.read("./appStartUp/nova_cancle.png");
-  let nova_cancle_result = waitForImage(nova_cancle, 10000);
-  nova_cancle.recycle();
+  // 进入挖矿页
+  var athene_main = images.read("./appStartUp/athene_main.png");
+  var athene_main_result = waitForImage(athene_main, 10000);
+  athene_main.recycle();
 
-  if (nova_cancle_result) {
-    click(nova_cancle_result.x, nova_cancle_result.y);
-    sleep(1000);
+  if (athene_main_result) {
+    click(athene_main_result.x, athene_main_result.y);
+
+    // 判断是否开始
+    var athene_startup = images.read("./appStartUp/athene_startup.png");
+    var athene_startup_result = waitForImage(athene_startup, 10000);
+    athene_startup.recycle();
+
+    if (athene_startup_result) {
+      click(athene_startup_result.x, athene_startup_result.y);
+      sleep(1000);
+    }
+
+    // 判断是否领取
+    var athene_rewards = images.read("./appStartUp/athene_rewards.png");
+    var athene_rewards_result = waitForImage(athene_rewards, 10000);
+    athene_rewards.recycle();
+
+    if (athene_rewards_result) {
+      click(athene_rewards_result.x, athene_rewards_result.y);
+      sleep(1000);
+    }
+
+    var athene_main = images.read("./appStartUp/athene_main.png");
+    if (!waitForImage(athene_main, 10000)) {
+      sleep(1000);
+      click(150, 2190);
+    }
+    athene_main.recycle();
   }
+
+  sleep(1000);
+  home();
 }
 
 function main() {
