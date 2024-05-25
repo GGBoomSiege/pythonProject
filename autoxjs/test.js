@@ -109,8 +109,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 473, 1536, 133, 40);
-  // 606 1575
+  var startup = images.clip(img, 525, 1505, 30, 29);
+  // 557 1533
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -169,13 +169,12 @@ function runMain() {
 }
 
 function temp() {
-  var athene_rewards = images.read("./appStartUp/athene_rewards.png");
-  var athene_rewards_result = waitForImage(athene_rewards, 10000);
-  athene_rewards.recycle();
+  let nova_cancle = images.read("./appStartUp/nova_cancle.png");
+  let nova_cancle_result = waitForImage(nova_cancle, 10000);
+  nova_cancle.recycle();
 
-  if (athene_rewards_result) {
-    log(athene_rewards_result.x, athene_rewards_result.y);
-    // click(athene_rewards_result.x, athene_rewards_result.y);
+  if (nova_cancle_result) {
+    click(nova_cancle_result.x, nova_cancle_result.y);
     sleep(1000);
   }
 }
@@ -192,8 +191,8 @@ function main() {
 
 const x = device.width;
 const y = device.height;
-main();
-// temp();
+// main();
+temp();
 
 // const startTime = Date.now();
 // sleep(2000);

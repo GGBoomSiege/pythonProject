@@ -135,11 +135,13 @@ function NovaStart() {
     exit();
   }
 
+  // 判断是否进入应用
   var nova_main = images.read("./appStartUp/nova_main.png");
   var nova_main_result = waitForImage(nova_main, 60000);
   nova_main.recycle();
 
   if (nova_main_result) {
+    // 判断是否进入挖矿页
     var nova_click = images.read("./appStartUp/nova_click.png");
     var nova_click_result = waitForImage(nova_click, 10000);
     nova_click.recycle();
@@ -148,6 +150,7 @@ function NovaStart() {
       click(nova_click_result.x, nova_click_result.y);
       sleep(1000);
 
+      // 判断是否开始挖矿
       var nova_startup = images.read("./appStartUp/nova_startup.png");
       var nova_startup_result = waitForImage(nova_startup, 10000);
       nova_startup.recycle();
@@ -155,8 +158,8 @@ function NovaStart() {
       if (nova_startup_result) {
         click(nova_startup_result.x, nova_startup_result.y);
 
-        var nova_cancle = images.read("./appStartUp/nova_cancle.png");
-        var nova_cancle_result = waitForImage(nova_cancle, 10000);
+        let nova_cancle = images.read("./appStartUp/nova_cancle.png");
+        let nova_cancle_result = waitForImage(nova_cancle, 10000);
         nova_cancle.recycle();
 
         if (nova_cancle_result) {
@@ -164,6 +167,50 @@ function NovaStart() {
           sleep(1000);
         }
       }
+
+      // 判断是否可以加速
+      swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+
+      var nova_rewards = images.read("./appStartUp/nova_rewards.png");
+      var nova_rewards_result = waitForImage(nova_rewards, 10000);
+      nova_rewards.recycle();
+
+      if (nova_rewards_result) {
+        click(nova_rewards_result.x, nova_rewards_result.y);
+        sleep(1000);
+
+        // 开始抽取加速
+        var nova_rewards_start = images.read("./appStartUp/nova_rewards_start.png");
+        var nova_rewards_start_result = waitForImage(nova_rewards_start, 10000);
+        nova_rewards_start.recycle();
+
+        if (nova_rewards_start_result) {
+          click(nova_rewards_start_result.x, nova_rewards_start_result.y);
+          sleep(1000);
+
+          // 确认抽取加速
+          var nova_rewards_confirm = images.read("./appStartUp/nova_rewards_confirm.png");
+          var nova_rewards_confirm_result = waitForImage(nova_rewards_confirm, 10000);
+          nova_rewards_confirm.recycle();
+
+          if (nova_rewards_confirm_result) {
+            click(nova_rewards_confirm_result.x, nova_rewards_confirm_result.y);
+            sleep(1000);
+          }
+        }
+
+        // 关闭抽取
+        let nova_cancle = images.read("./appStartUp/nova_cancle.png");
+        let nova_cancle_result = waitForImage(nova_cancle, 10000);
+        nova_cancle.recycle();
+
+        if (nova_cancle_result) {
+          click(nova_cancle_result.x, nova_cancle_result.y);
+          sleep(1000);
+        }
+      }
+
+      swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
     }
 
     sleep(1000);
