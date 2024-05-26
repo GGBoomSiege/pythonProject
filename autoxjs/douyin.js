@@ -175,8 +175,8 @@ function douyin() {
 //   看广告赚金币
 function douyin_ad() {
   //   判断是否看完
-  var count = 0;
-  while (true) {
+  let count = 0;
+  while (count < 4) {
     // 判断是否跳入直播
     if (count > 2) {
       sleep(1000);
@@ -259,7 +259,8 @@ function executeAndWait() {
     }
   }
 
-  while (true) {
+  let count = 0;
+  while (count < 4) {
     var douyin_flag = images.read("./douyin/douyin_flag.png");
     var douyin_flag_result = waitForImage(douyin_flag, 1000);
     douyin_flag.recycle();
@@ -269,6 +270,8 @@ function executeAndWait() {
     } else {
       swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
     }
+
+    count++;
   }
 
   back();
