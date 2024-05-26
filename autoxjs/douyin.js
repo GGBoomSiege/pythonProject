@@ -354,6 +354,6 @@ const x = device.width;
 const y = device.height;
 
 const startTime = Date.now();
-const timeout = 135 * 60 * 1000;
+const timeout = 150 * 60 * 1000;
 
 main();

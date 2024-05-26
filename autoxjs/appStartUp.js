@@ -167,9 +167,18 @@ function NovaStart() {
     exit();
   }
 
+  // 判断有无额外页
+  var nova_index_flag = images.read("./appStartUp/nova_index_flag.png");
+  var nova_index_flag_result = waitForImage(nova_index_flag, 60000);
+  nova_index_flag.recycle();
+
+  if (nova_index_flag_result) {
+    back();
+  }
+
   // 判断是否进入应用
   var nova_index = images.read("./appStartUp/nova_index.png");
-  var nova_index_result = waitForImage(nova_index, 60000);
+  var nova_index_result = waitForImage(nova_index, 10000);
   nova_index.recycle();
 
   if (nova_index_result) {

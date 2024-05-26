@@ -109,8 +109,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 505, 2132, 72, 72);
-  // 582 2210
+  var startup = images.clip(img, 294, 484, 328, 60);
+  // 619 541
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -169,44 +169,13 @@ function runMain() {
 }
 
 function temp() {
-  // 进入挖矿页
-  var athene_main = images.read("./appStartUp/athene_main.png");
-  var athene_main_result = waitForImage(athene_main, 10000);
-  athene_main.recycle();
+  var nova_rewards = images.read("./appStartUp/nova_rewards.png");
+  var nova_rewards_result = waitForImage(nova_rewards, 10000);
+  nova_rewards.recycle();
 
-  if (athene_main_result) {
-    click(athene_main_result.x, athene_main_result.y);
-
-    // 判断是否开始
-    var athene_startup = images.read("./appStartUp/athene_startup.png");
-    var athene_startup_result = waitForImage(athene_startup, 10000);
-    athene_startup.recycle();
-
-    if (athene_startup_result) {
-      click(athene_startup_result.x, athene_startup_result.y);
-      sleep(1000);
-    }
-
-    // 判断是否领取
-    var athene_rewards = images.read("./appStartUp/athene_rewards.png");
-    var athene_rewards_result = waitForImage(athene_rewards, 10000);
-    athene_rewards.recycle();
-
-    if (athene_rewards_result) {
-      click(athene_rewards_result.x, athene_rewards_result.y);
-      sleep(1000);
-    }
-
-    var athene_main = images.read("./appStartUp/athene_main.png");
-    if (!waitForImage(athene_main, 10000)) {
-      sleep(1000);
-      click(150, 2190);
-    }
-    athene_main.recycle();
+  if (nova_rewards_result) {
+    log(nova_rewards_result.x, nova_rewards_result.y);
   }
-
-  sleep(1000);
-  home();
 }
 
 function main() {
@@ -222,7 +191,8 @@ function main() {
 const x = device.width;
 const y = device.height;
 // main();
-temp();
+// temp();
+swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
 // sleep(2000);
