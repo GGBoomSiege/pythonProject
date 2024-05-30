@@ -79,6 +79,17 @@ function sign() {
 
   if (preResult) {
     click(preResult.x, preResult.y);
+
+    // 判断是否有广告
+    var douyin_sign_ad = images.read("./douyin/douyin_sign_ad.png");
+    var douyin_sign_ad_result = waitForImage(douyin_sign_ad, 10000);
+    douyin_sign_ad.recycle();
+
+    if (douyin_sign_ad_result) {
+      click(douyin_sign_ad_result.x, douyin_sign_ad_result.y);
+      sleep(5000);
+      douyin_ad(); // 点击广告
+    }
   } else {
     // 导入签到图片
     var sign = images.read("./douyin/douyin_sign.png");
@@ -90,8 +101,17 @@ function sign() {
       click(result.x, result.y);
       sleep(3000);
       click(540, 1700);
-      sleep(3000);
-      back();
+
+      // 判断是否有广告
+      var douyin_sign_ad = images.read("./douyin/douyin_sign_ad.png");
+      var douyin_sign_ad_result = waitForImage(douyin_sign_ad, 10000);
+      douyin_sign_ad.recycle();
+
+      if (douyin_sign_ad_result) {
+        click(douyin_sign_ad_result.x, douyin_sign_ad_result.y);
+        sleep(5000);
+        douyin_ad(); // 点击广告
+      }
     } else {
       back();
     }
@@ -357,6 +377,6 @@ const x = device.width;
 const y = device.height;
 
 const startTime = Date.now();
-const timeout = 150 * 60 * 1000;
+const timeout = 140 * 60 * 1000;
 
 main();

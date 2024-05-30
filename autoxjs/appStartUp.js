@@ -86,6 +86,7 @@ function atheneStart() {
 
   if (athene_sign_result) {
     click(athene_sign_result.x, athene_sign_result.y);
+    sleep(10000);
   }
 
   // 进入挖矿页
@@ -267,8 +268,7 @@ function NovaStart() {
     nova_sign_flag.recycle();
 
     if (!nova_sign_flag_result) {
-      click(nova_sign_flag_result.x, nova_sign_flag_result.y);
-
+      click(535, 2190);
       sleep(2000);
       click(535, 1460);
 
@@ -296,6 +296,35 @@ function NovaStart() {
   home();
 }
 
+function CeliaStart() {
+  app.launch("com.celia.finance");
+  waitForPackage("com.celia.finance");
+
+  if (!requestScreenCapture()) {
+    toast("请求截图权限失败");
+    exit();
+  }
+
+  sleep(10000);
+  click(1030, 1288);
+
+  // 判断是否开始挖矿
+  var celia_startup = images.read("./appStartUp/celia_startup.png");
+  var celia_startup_result = waitForImage(celia_startup, 10000);
+  celia_startup.recycle();
+
+  if (celia_startup_result) {
+    click(celia_startup_result.x, celia_startup_result.y);
+    sleep(2000);
+    click(527, 1449);
+  }
+
+  sleep(1000);
+  back();
+  sleep(1000);
+  home();
+}
+
 function main() {
   device.wakeUp();
   auto.waitFor();
@@ -311,6 +340,8 @@ function main() {
   atheneStart();
   sleep(1000);
   AZCoinerStart();
+  sleep(1000);
+  CeliaStart();
   sleep(1000);
   NovaStart();
   // sleep(1000);
