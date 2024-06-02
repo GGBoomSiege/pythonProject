@@ -79,6 +79,7 @@ function sign() {
 
   if (preResult) {
     click(preResult.x, preResult.y);
+    sleep(3000);
 
     // 判断是否有广告
     var douyin_sign_ad = images.read("./douyin/douyin_sign_ad.png");
@@ -101,6 +102,7 @@ function sign() {
       click(result.x, result.y);
       sleep(3000);
       click(540, 1700);
+      sleep(3000);
 
       // 判断是否有广告
       var douyin_sign_ad = images.read("./douyin/douyin_sign_ad.png");
@@ -196,7 +198,7 @@ function douyin() {
 function douyin_ad() {
   //   判断是否看完
   let count = 0;
-  while (count < 4) {
+  while (count < 6) {
     // 判断是否跳入直播
     if (count > 2) {
       sleep(1000);
@@ -210,6 +212,14 @@ function douyin_ad() {
         click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
         sleep(1000);
         break;
+      }
+
+      // 判断是否中断
+      let douyin_ad_continue_flag = images.read("./douyin/douyin_ad_continue_flag.png");
+      let douyin_ad_continue_flag_point = waitForImage(douyin_ad_continue_flag, 5000, 0.8);
+      douyin_ad_continue_flag.recycle();
+      if (douyin_ad_continue_flag_point) {
+        click(douyin_ad_continue_flag_point.x, douyin_ad_continue_flag_point.y);
       }
     }
 

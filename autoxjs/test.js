@@ -65,6 +65,16 @@ function waitForRegionImage(image, x, y, width, height, timeout, threshold) {
   }
 }
 
+function backMain(app) {
+  openAppSetting(app);
+  sleep(1000);
+  id("action_menu_item_child_text").className("android.widget.TextView").text("结束运行").findOne().parent().click();
+  sleep(1000);
+  click("确定");
+  sleep(1000);
+  back();
+}
+
 function douyin_ad() {
   //   判断是否看完
   let count = 0;
@@ -176,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 294, 1689, 231, 46);
-  // 525 1735
+  var startup = images.clip(img, 124, 146, 104, 34);
+  // 232 180
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -235,16 +245,70 @@ function runMain() {
   back();
 }
 
-function temp() {
-  // 判断是否有广告
-  var douyin_sign_ad = images.read("./douyin/douyin_sign_ad.png");
-  var douyin_sign_ad_result = waitForImage(douyin_sign_ad, 10000);
-  douyin_sign_ad.recycle();
+function sign_115() {
+  app.launch("com.ylmf.androidclient");
+  waitForPackage("com.ylmf.androidclient");
 
-  if (douyin_sign_ad_result) {
-    click(douyin_sign_ad_result.x, douyin_sign_ad_result.y);
-    sleep(5000);
-    douyin_ad(); // 点击广告
+  if (!requestScreenCapture()) {
+    toast("请求截图权限失败");
+    exit();
+  }
+
+  // 判断是否进入应用
+  var index_115 = images.read("./appStartUp/index_115.png");
+  var index_115_result = waitForImage(index_115, 60000);
+  index_115.recycle();
+
+  if (index_115_result) {
+    click(index_115_result.x, index_115_result.y);
+
+    // 签到
+    var sign_115 = images.read("./appStartUp/sign_115.png");
+    var sign_115_result = waitForImage(sign_115, 60000);
+    sign_115.recycle();
+
+    if (!sign_115_result) {
+      click(148, 158);
+
+      var sign_115_flag = images.read("./appStartUp/sign_115_flag.png");
+      var sign_115_flag_result = waitForImage(sign_115_flag, 60000);
+      sign_115_flag.recycle();
+
+      if (sign_115_flag_result) {
+        click(sign_115_flag_result.x, sign_115_flag_result.y);
+      }
+    }
+  }
+
+  sleep(1000);
+  backMain("com.ylmf.androidclient");
+}
+
+function temp() {
+  // 判断是否进入应用
+  var index_115 = images.read("./appStartUp/index_115.png");
+  var index_115_result = waitForImage(index_115, 60000);
+  index_115.recycle();
+
+  if (index_115_result) {
+    click(index_115_result.x, index_115_result.y);
+
+    // 签到
+    var sign_115 = images.read("./appStartUp/sign_115.png");
+    var sign_115_result = waitForImage(sign_115, 60000);
+    sign_115.recycle();
+
+    // if (!sign_115_result) {
+    //   click(148, 158);
+
+    //   var sign_115_flag = images.read("./appStartUp/sign_115_flag.png");
+    //   var sign_115_flag_result = waitForImage(sign_115_flag, 60000);
+    //   sign_115_flag.recycle();
+
+    //   if (sign_115_flag_result) {
+    //     click(sign_115_flag_result.x, sign_115_flag_result.y);
+    //   }
+    // }
   }
 }
 
@@ -261,7 +325,7 @@ function main() {
 const x = device.width;
 const y = device.height;
 // main();
-temp();
+// temp();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
@@ -273,3 +337,4 @@ temp();
 // log(currentPackage());
 // log(currentActivity());
 // click{70, 1650}
+sign_115();
