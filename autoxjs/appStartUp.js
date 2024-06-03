@@ -346,7 +346,7 @@ function sign_115() {
 
   // 判断是否进入应用
   var index_115 = images.read("./appStartUp/index_115.png");
-  var index_115_result = waitForImage(index_115, 60000);
+  var index_115_result = waitForImage(index_115, 10000);
   index_115.recycle();
 
   if (index_115_result) {
@@ -354,14 +354,14 @@ function sign_115() {
 
     // 签到
     var sign_115 = images.read("./appStartUp/sign_115.png");
-    var sign_115_result = waitForImage(sign_115, 60000);
+    var sign_115_result = waitForImage(sign_115, 10000);
     sign_115.recycle();
 
     if (!sign_115_result) {
       click(148, 158);
 
       var sign_115_flag = images.read("./appStartUp/sign_115_flag.png");
-      var sign_115_flag_result = waitForImage(sign_115_flag, 60000);
+      var sign_115_flag_result = waitForImage(sign_115_flag, 10000);
       sign_115_flag.recycle();
 
       if (sign_115_flag_result) {
