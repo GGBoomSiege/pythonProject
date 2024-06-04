@@ -399,7 +399,7 @@ function main() {
   // NovaStart();
 }
 
-const x = device.width;
-const y = device.height;
+const x = 1080;
+const y = 2340;
 
 main();
