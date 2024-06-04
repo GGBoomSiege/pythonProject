@@ -148,7 +148,7 @@ function points() {
 
 function douyin() {
   // 执行滑动操作
-  swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
+  swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 1000);
   sleep(1000);
   back();
 
@@ -171,11 +171,11 @@ function douyin() {
   //   if (douyin_ad_flag_point) {
   //     break;
   //   } else {
-  //     swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+  //     swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 1000);
   //   }
   // }
 
-  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 1000);
 
   // 导入宝箱图片
   var sign = images.read("./douyin/douyin_baoxiang.png");
@@ -298,7 +298,7 @@ function executeAndWait() {
     if (douyin_flag_result) {
       break;
     } else {
-      swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
+      swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 1000);
     }
 
     count++;
