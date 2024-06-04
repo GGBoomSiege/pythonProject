@@ -322,8 +322,9 @@ function main() {
   // }
 }
 
-const x = device.width;
-const y = device.height;
+const x = 1080;
+const y = 2340;
+
 // main();
 // temp();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);

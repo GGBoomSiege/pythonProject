@@ -383,8 +383,8 @@ if (!requestScreenCapture()) {
   exit();
 }
 
-const x = device.width;
-const y = device.height;
+const x = 1080;
+const y = 2340;
 
 const startTime = Date.now();
 const timeout = 150 * 60 * 1000;
