@@ -266,36 +266,36 @@ function NovaStart() {
       swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
     }
 
-    // 进入签到页
-    sleep(2000);
-    click(975, 2230);
-    sleep(2000);
-    click(936, 242);
+    // // 进入签到页
+    // sleep(2000);
+    // click(975, 2230);
+    // sleep(2000);
+    // click(936, 242);
 
-    // 判断是否可以签到
-    var nova_sign_flag = images.read("./appStartUp/nova_sign_flag.png");
-    var nova_sign_flag_result = waitForImage(nova_sign_flag, 10000);
-    nova_sign_flag.recycle();
+    // // 判断是否可以签到
+    // var nova_sign_flag = images.read("./appStartUp/nova_sign_flag.png");
+    // var nova_sign_flag_result = waitForImage(nova_sign_flag, 10000);
+    // nova_sign_flag.recycle();
 
-    if (!nova_sign_flag_result) {
-      click(535, 2190);
-      sleep(2000);
-      click(535, 1460);
+    // if (!nova_sign_flag_result) {
+    //   click(535, 2190);
+    //   sleep(2000);
+    //   click(535, 1460);
 
-      // 关闭会员提示
-      let nova_cancle = images.read("./appStartUp/nova_cancle.png");
-      let nova_cancle_result = waitForImage(nova_cancle, 10000);
-      nova_cancle.recycle();
+    //   // 关闭会员提示
+    //   let nova_cancle = images.read("./appStartUp/nova_cancle.png");
+    //   let nova_cancle_result = waitForImage(nova_cancle, 10000);
+    //   nova_cancle.recycle();
 
-      if (nova_cancle_result) {
-        click(nova_cancle_result.x, nova_cancle_result.y);
-        sleep(1000);
-      }
-    }
+    //   if (nova_cancle_result) {
+    //     click(nova_cancle_result.x, nova_cancle_result.y);
+    //     sleep(1000);
+    //   }
+    // }
 
-    // 退出签到页
-    sleep(2000);
-    click(79, 173);
+    // // 退出签到页
+    // sleep(2000);
+    // click(79, 173);
 
     // 回到首页
     sleep(1000);
