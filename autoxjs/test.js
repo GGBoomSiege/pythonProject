@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 124, 146, 104, 34);
-  // 232 180
+  var startup = images.clip(img, 902, 2116, 46, 46);
+  // 946 2163
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -285,31 +285,9 @@ function sign_115() {
 }
 
 function temp() {
-  // 判断是否进入应用
-  var index_115 = images.read("./appStartUp/index_115.png");
-  var index_115_result = waitForImage(index_115, 60000);
-  index_115.recycle();
-
-  if (index_115_result) {
-    click(index_115_result.x, index_115_result.y);
-
-    // 签到
-    var sign_115 = images.read("./appStartUp/sign_115.png");
-    var sign_115_result = waitForImage(sign_115, 60000);
-    sign_115.recycle();
-
-    // if (!sign_115_result) {
-    //   click(148, 158);
-
-    //   var sign_115_flag = images.read("./appStartUp/sign_115_flag.png");
-    //   var sign_115_flag_result = waitForImage(sign_115_flag, 60000);
-    //   sign_115_flag.recycle();
-
-    //   if (sign_115_flag_result) {
-    //     click(sign_115_flag_result.x, sign_115_flag_result.y);
-    //   }
-    // }
-  }
+  let douyin_ad_finish = images.read("./douyin/douyin_ad_finish.png");
+  let douyin_ad_finish_point = waitForImage(douyin_ad_finish, 3000, 0.7);
+  log(douyin_ad_finish_point);
 }
 
 function main() {
@@ -326,7 +304,7 @@ const x = 1080;
 const y = 2340;
 
 // main();
-// temp();
+temp();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
@@ -338,4 +316,4 @@ const y = 2340;
 // log(currentPackage());
 // log(currentActivity());
 // click{70, 1650}
-sign_115();
+// sign_115();
