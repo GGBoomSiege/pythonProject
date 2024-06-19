@@ -38,6 +38,14 @@ function cPenStart() {
     exit();
   }
 
+  var cpen_ad = images.read("./appStartUp/cpen_ad.png");
+  var cpen_ad_result = waitForImage(cpen_ad, 10000);
+  cpen_ad.recycle();
+
+  if (cpen_ad_result) {
+    click(cpen_ad_result.x, cpen_ad_result.y);
+  }
+
   var cpen_startup = images.read("./appStartUp/cpen_startup.png");
   var cpen_startup_result = waitForImage(cpen_startup, 10000);
   cpen_startup.recycle();
@@ -56,8 +64,14 @@ function phonepalStart() {
   home();
 }
 
-function traffmonetizerStart() {
-  app.launch("com.traffmonetizer.client");
+function tiantangStart() {
+  app.launch("com.tiantang.node");
+  sleep(10000);
+  home();
+}
+
+function repocketStart() {
+  app.launch("com.app.repocket");
   sleep(10000);
   home();
 }
@@ -221,49 +235,49 @@ function NovaStart() {
         }
       }
 
-      // 判断是否可以加速
-      swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+      // // 判断是否可以加速
+      // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
-      var nova_rewards = images.read("./appStartUp/nova_rewards.png");
-      var nova_rewards_result = waitForImage(nova_rewards, 10000);
-      nova_rewards.recycle();
+      // var nova_rewards = images.read("./appStartUp/nova_rewards.png");
+      // var nova_rewards_result = waitForImage(nova_rewards, 10000);
+      // nova_rewards.recycle();
 
-      if (nova_rewards_result) {
-        click(nova_rewards_result.x, nova_rewards_result.y);
-        sleep(1000);
+      // if (nova_rewards_result) {
+      //   click(nova_rewards_result.x, nova_rewards_result.y);
+      //   sleep(1000);
 
-        // 开始抽取加速
-        var nova_rewards_start = images.read("./appStartUp/nova_rewards_start.png");
-        var nova_rewards_start_result = waitForImage(nova_rewards_start, 10000);
-        nova_rewards_start.recycle();
+      //   // 开始抽取加速
+      //   var nova_rewards_start = images.read("./appStartUp/nova_rewards_start.png");
+      //   var nova_rewards_start_result = waitForImage(nova_rewards_start, 10000);
+      //   nova_rewards_start.recycle();
 
-        if (nova_rewards_start_result) {
-          click(nova_rewards_start_result.x, nova_rewards_start_result.y);
-          sleep(1000);
+      //   if (nova_rewards_start_result) {
+      //     click(nova_rewards_start_result.x, nova_rewards_start_result.y);
+      //     sleep(1000);
 
-          // 确认抽取加速
-          var nova_rewards_confirm = images.read("./appStartUp/nova_rewards_confirm.png");
-          var nova_rewards_confirm_result = waitForImage(nova_rewards_confirm, 10000);
-          nova_rewards_confirm.recycle();
+      //     // 确认抽取加速
+      //     var nova_rewards_confirm = images.read("./appStartUp/nova_rewards_confirm.png");
+      //     var nova_rewards_confirm_result = waitForImage(nova_rewards_confirm, 10000);
+      //     nova_rewards_confirm.recycle();
 
-          if (nova_rewards_confirm_result) {
-            click(nova_rewards_confirm_result.x, nova_rewards_confirm_result.y);
-            sleep(1000);
-          }
-        }
+      //     if (nova_rewards_confirm_result) {
+      //       click(nova_rewards_confirm_result.x, nova_rewards_confirm_result.y);
+      //       sleep(1000);
+      //     }
+      //   }
 
-        // 关闭会员提示
-        let nova_cancle = images.read("./appStartUp/nova_cancle.png");
-        let nova_cancle_result = waitForImage(nova_cancle, 10000);
-        nova_cancle.recycle();
+      //   // 关闭会员提示
+      //   let nova_cancle = images.read("./appStartUp/nova_cancle.png");
+      //   let nova_cancle_result = waitForImage(nova_cancle, 10000);
+      //   nova_cancle.recycle();
 
-        if (nova_cancle_result) {
-          click(nova_cancle_result.x, nova_cancle_result.y);
-          sleep(1000);
-        }
-      }
+      //   if (nova_cancle_result) {
+      //     click(nova_cancle_result.x, nova_cancle_result.y);
+      //     sleep(1000);
+      //   }
+      // }
 
-      swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
+      // swipe((2 / 3) * x, (1 / 3) * y, (2 / 3) * x, (2 / 3) * y, 500);
     }
 
     // // 进入签到页
@@ -315,7 +329,16 @@ function CeliaStart() {
     exit();
   }
 
-  sleep(10000);
+  sleep(60000);
+
+  var celia_ad = images.read("./appStartUp/celia_ad.png");
+  var celia_ad_result = waitForImage(celia_ad, 10000);
+  celia_ad.recycle();
+
+  if (celia_ad_result) {
+    click(celia_ad_result.x, celia_ad_result.y);
+  }
+
   click(1030, 1288);
 
   // 判断是否开始挖矿
@@ -381,7 +404,9 @@ function main() {
   sleep(1000);
   phonepalStart();
   sleep(1000);
-  traffmonetizerStart();
+  tiantangStart();
+  sleep(1000);
+  repocketStart();
   sleep(1000);
   sign_115();
 

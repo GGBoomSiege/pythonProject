@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 902, 2116, 46, 46);
-  // 946 2163
+  var startup = images.clip(img, 50, 50, 32, 32);
+  // 73 82
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -304,7 +304,7 @@ const x = 1080;
 const y = 2340;
 
 // main();
-temp();
+// temp();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
@@ -313,7 +313,7 @@ temp();
 
 // log(endTime - startTime);
 
-// log(currentPackage());
+log(currentPackage());
 // log(currentActivity());
 // click{70, 1650}
 // sign_115();
