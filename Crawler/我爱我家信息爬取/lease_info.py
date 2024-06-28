@@ -12,6 +12,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
 import datetime
 import uuid
+from decimal import Decimal
+import time
 
 
 def unique_lease_id():
@@ -117,9 +119,11 @@ def get_leases(url):
                     (By.XPATH, "//div[@class='lfBox lf']/div[@class='pageBox']")
                 )
             )
+
             if "下一页" not in flag.text:
                 break
             else:
+                time.sleep(4)
                 driver.find_element(
                     By.XPATH,
                     "//div[@class='lfBox lf']/div[@class='pageBox']/div[@class='pageSty rf']/a[@class='cPage'][1]",
@@ -187,7 +191,7 @@ def run_database(data):
         home_size_more = Column(String(64))
         home_location = Column(String(64))
         home_more_location = Column(String(64))
-        home_salary = Column(Integer)
+        home_salary = Column(DECIMAL)
         lease_type = Column(String(64))
 
     Base.metadata.create_all(engine)
@@ -205,7 +209,7 @@ def run_database(data):
             home_size_more=item["home_size_more"],
             home_location=item["home_location"],
             home_more_location=item["home_more_location"],
-            home_salary=int(item["home_salary"]),
+            home_salary=Decimal(item["home_salary"]),
             lease_type=item["lease_type"],
         )
         session.add(obj)
