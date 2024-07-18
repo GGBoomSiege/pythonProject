@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 50, 50, 32, 32);
-  // 73 82
+  var startup = images.clip(img, 966, 130, 43, 43);
+  // 1006 169
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -285,9 +285,18 @@ function sign_115() {
 }
 
 function temp() {
-  let douyin_ad_finish = images.read("./douyin/douyin_ad_finish.png");
-  let douyin_ad_finish_point = waitForImage(douyin_ad_finish, 3000, 0.7);
-  log(douyin_ad_finish_point);
+  if (className("android.widget.ImageView").desc("挖矿").findOne(10000).click()) {
+    log("yes");
+  } else {
+    log("no");
+  }
+}
+
+function temp2() {
+  while (true) {
+    click(540, 1179);
+    sleep(100);
+  }
 }
 
 function main() {
@@ -304,7 +313,7 @@ const x = 1080;
 const y = 2340;
 
 // main();
-// temp();
+temp2();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
@@ -313,7 +322,7 @@ const y = 2340;
 
 // log(endTime - startTime);
 
-log(currentPackage());
+// log(currentPackage());
 // log(currentActivity());
 // click{70, 1650}
 // sign_115();

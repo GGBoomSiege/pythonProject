@@ -30,6 +30,9 @@ function backMain(app) {
 }
 
 function cPenStart() {
+  backMain("io.cpen.mobile");
+  sleep(1000);
+
   app.launch("io.cpen.mobile");
   waitForPackage("io.cpen.mobile");
 
@@ -70,13 +73,17 @@ function tiantangStart() {
   home();
 }
 
-function repocketStart() {
-  app.launch("com.app.repocket");
+function atheneStart() {
+  backMain("network.athene.app");
+  sleep(1000);
+
+  app.launch("network.athene.app");
+  waitForPackage("network.athene.app");
+
   sleep(10000);
   home();
-}
+  sleep(3000);
 
-function atheneStart() {
   app.launch("network.athene.app");
   waitForPackage("network.athene.app");
 
@@ -85,9 +92,11 @@ function atheneStart() {
     exit();
   }
 
+  sleep(60000);
+
   // 判断是否进入应用
   var athene_index = images.read("./appStartUp/athene_index.png");
-  var athene_index_result = waitForImage(athene_index, 60000, 0.8);
+  var athene_index_result = waitForImage(athene_index, 10000, 0.8);
   athene_index.recycle();
 
   if (athene_index_result) {
@@ -113,13 +122,21 @@ function atheneStart() {
     sleep(10000);
   }
 
-  // 进入挖矿页
-  var athene_main = images.read("./appStartUp/athene_main.png");
-  var athene_main_result = waitForImage(athene_main, 15000);
-  athene_main.recycle();
+  // var athene_main = images.read("./appStartUp/athene_main.png");
+  // var athene_main_result = waitForImage(athene_main, 15000);
+  // athene_main.recycle();
 
-  if (athene_main_result) {
-    click(athene_main_result.x, athene_main_result.y);
+  // 进入挖矿页
+  // if (athene_main_result) {
+  athene_main = className("android.widget.ImageView").desc("挖矿").findOne(5000);
+  if (athene_main) {
+    athene_main.click();
+    // click(athene_main_result.x, athene_main_result.y);
+
+    sleep(5000);
+
+    startup_main = className("android.view.View").desc("你的节点").findOne().click();
+    startup_main.click();
 
     // 判断是否开始
     var athene_startup = images.read("./appStartUp/athene_startup.png");
@@ -154,6 +171,9 @@ function atheneStart() {
 }
 
 function AZCoinerStart() {
+  backMain("com.azc.azcoiner");
+  sleep(1000);
+
   app.launch("com.azc.azcoiner");
   waitForPackage("com.azc.azcoiner");
 
@@ -161,6 +181,8 @@ function AZCoinerStart() {
     toast("请求截图权限失败");
     exit();
   }
+
+  sleep(30000);
 
   // 判断是否进入应用
   var azcoiner_index = images.read("./appStartUp/azcoiner_index.png");
@@ -184,6 +206,9 @@ function AZCoinerStart() {
 }
 
 function NovaStart() {
+  backMain("one.novaverse.android");
+  sleep(1000);
+
   app.launch("one.novaverse.android");
   waitForPackage("one.novaverse.android");
 
@@ -192,9 +217,11 @@ function NovaStart() {
     exit();
   }
 
+  sleep(60000);
+
   // 判断有无额外页
   var nova_index_flag = images.read("./appStartUp/nova_index_flag.png");
-  var nova_index_flag_result = waitForImage(nova_index_flag, 60000);
+  var nova_index_flag_result = waitForImage(nova_index_flag, 10000);
   nova_index_flag.recycle();
 
   if (nova_index_flag_result) {
@@ -223,6 +250,14 @@ function NovaStart() {
 
       if (nova_startup_result) {
         click(nova_startup_result.x, nova_startup_result.y);
+
+        var nova_startup_cancle = images.read("./appStartUp/nova_rewards_confirm.png");
+        var nova_startup_cancle_result = waitForImage(nova_startup_cancle, 120000);
+        nova_startup_cancle.recycle();
+
+        if (nova_startup_cancle_result) {
+          click(nova_startup_cancle_result.x, nova_startup_cancle_result.y);
+        }
 
         // 关闭会员提示
         let nova_cancle = images.read("./appStartUp/nova_cancle.png");
@@ -321,6 +356,9 @@ function NovaStart() {
 }
 
 function CeliaStart() {
+  backMain("com.celia.finance");
+  sleep(1000);
+
   app.launch("com.celia.finance");
   waitForPackage("com.celia.finance");
 
@@ -405,23 +443,11 @@ function main() {
   phonepalStart();
   sleep(1000);
   tiantangStart();
-  sleep(1000);
-  repocketStart();
-  sleep(1000);
-  sign_115();
 
-  sleep(1000);
-  cPenStart();
-  sleep(1000);
-  atheneStart();
   sleep(1000);
   AZCoinerStart();
   sleep(1000);
-  CeliaStart();
-  sleep(1000);
   NovaStart();
-  // sleep(1000);
-  // NovaStart();
 }
 
 const x = 1080;
