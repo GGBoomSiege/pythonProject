@@ -73,9 +73,10 @@ def get_jobs(JOB_KEY, CITY_KEY):
             )
 
             # print(flag)
-            # print(len(jobs_url))
+            print(len(jobs_url))
 
             for num in range(len(jobs_title)):
+                print(1)
                 infos.extend(
                     [
                         {
@@ -88,6 +89,7 @@ def get_jobs(JOB_KEY, CITY_KEY):
                         }
                     ]
                 )
+            print(2)
 
             end_button = wait.until(
                 EC.presence_of_element_located(
@@ -104,7 +106,7 @@ def get_jobs(JOB_KEY, CITY_KEY):
                 time.sleep(random.randint(1, 4))
                 end_button.click()
         except Exception as e:
-            print(driver.current_url)
+            print(e)
             continue
 
     # 关闭浏览器
@@ -209,7 +211,8 @@ def get_database():
 if __name__ == "__main__":
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
-        JOB_KEY = "运维"
+        # JOB_KEY = "运维"
+        JOB_KEY = "生物"
         # JOB_KEY = "UX"
         # CITY_KEY = "020"  # 上海
         CITY_KEY = "060080"  # 苏州

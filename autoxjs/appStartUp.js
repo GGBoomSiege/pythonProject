@@ -445,8 +445,6 @@ function main() {
   tiantangStart();
 
   sleep(1000);
-  AZCoinerStart();
-  sleep(1000);
   NovaStart();
 }
 

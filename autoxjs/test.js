@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 966, 130, 43, 43);
-  // 1006 169
+  var startup = images.clip(img, 870, 896, 118, 44);
+  // 986 946
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -293,9 +293,12 @@ function temp() {
 }
 
 function temp2() {
-  while (true) {
-    click(540, 1179);
-    sleep(100);
+  var kuaishou_yuyue_getwards = images.read("./kuaishou/kuaishou_yuyue_getwards.png");
+  var kuaishou_yuyue_getwards_point = waitForImage(kuaishou_yuyue_getwards, 5000);
+  kuaishou_yuyue_getwards.recycle();
+
+  if (kuaishou_yuyue_getwards_point) {
+    log("已找到");
   }
 }
 

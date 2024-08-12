@@ -151,6 +151,7 @@ function points() {
 }
 
 function douyin() {
+  log("开始抖音刷屏");
   // 执行滑动操作
   swipe((x * (random(8, 10) / 10)) / 3, (y * 2 * (random(11, 13) / 10)) / 3, (x * 2 * (random(8, 10) / 10)) / 3, (y * (random(8, 10) / 10)) / 3, 500);
   sleep(1000);
@@ -179,11 +180,12 @@ function douyin() {
   //   }
   // }
 
-  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
+  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
 
   // 导入宝箱图片
+  log("开始宝箱");
   var sign = images.read("./douyin/douyin_baoxiang.png");
-  var result = waitForImage(sign, 3000);
+  var result = waitForImage(sign, 3000, 0.8);
   sign.recycle();
 
   // 点击宝箱
@@ -194,15 +196,17 @@ function douyin() {
     sleep(5000);
     douyin_ad(); // 点击广告
   }
+  log("结束宝箱");
 
   // back();
 }
 
 //   看广告赚金币
 function douyin_ad() {
+  log("开始广告");
   //   判断是否看完
   let count = 0;
-  while (true) {
+  while (count < 10) {
     // 判断是否跳入直播
     if (count > 2) {
       sleep(1000);
@@ -236,7 +240,7 @@ function douyin_ad() {
 
     // 判断是否跳转进下载页
     var douyin_ad_download_cancle = images.read("./douyin/douyin_ad_download_cancle.png");
-    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 33000, 0.7);
+    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 30000, 0.7);
     douyin_ad_download_cancle.recycle();
     if (douyin_ad_download_cancle_point) {
       click(douyin_ad_download_cancle_point.x, douyin_ad_download_cancle_point.y);
@@ -279,6 +283,7 @@ function douyin_ad() {
 
     count++;
   }
+  log("结束广告");
 }
 
 function executeAndWait() {
@@ -364,24 +369,25 @@ function main() {
   backMain();
   sleep(2000);
 
-  runMain();
-  sleep(2000);
-  points();
-  sleep(2000);
-  backMain();
-  sleep(2000);
+  // runMain();
+  // sleep(2000);
+  // points();
+  // sleep(2000);
+  // backMain();
+  // sleep(2000);
 
-  runMain();
-  sleep(2000);
-  sign();
-  sleep(2000);
-  backMain();
-  sleep(2000);
+  // runMain();
+  // sleep(2000);
+  // sign();
+  // sleep(2000);
+  // backMain();
+  // sleep(2000);
 
-  runMain();
-  sleep(2000);
+  // runMain();
+  // sleep(2000);
 
   while (Date.now() - startTime < timeout) {
+    log("已运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
     executeAndWait();
   }
 
