@@ -150,11 +150,11 @@ function douyin_ad() {
 
 function backMain(package) {
   openAppSetting(package);
-  sleep(1000);
+  sleep(2000);
   id("action_menu_item_child_text").className("android.widget.TextView").text("结束运行").findOne().parent().click();
-  sleep(1000);
+  sleep(2000);
   click("确定");
-  sleep(1000);
+  sleep(2000);
   back();
 }
 
@@ -303,9 +303,9 @@ function kuaishouSign() {
 
         if (kuaishou_yuyue_getwards_point) {
           click(kuaishou_yuyue_getwards_point.x, kuaishou_yuyue_getwards_point.y);
-          sleep(3000);
+          sleep(10000);
           click(535, 1508);
-          sleep(3000);
+          sleep(5000);
           back();
         }
       }

@@ -214,7 +214,7 @@ function douyin_ad() {
 
       // 判断是否完成
       let douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
-      let douyin_ad_complete_point = waitForImage(douyin_ad_complete, 3000, 0.7);
+      let douyin_ad_complete_point = waitForGrayscaleImage(douyin_ad_complete, 3000, 0.8);
       douyin_ad_complete.recycle();
       if (douyin_ad_complete_point) {
         click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
@@ -223,7 +223,7 @@ function douyin_ad() {
       }
 
       let douyin_ad_finish = images.read("./douyin/douyin_ad_finish.png");
-      let douyin_ad_finish_point = waitForImage(douyin_ad_finish, 3000, 0.7);
+      let douyin_ad_finish_point = waitForGrayscaleImage(douyin_ad_finish, 3000, 0.8);
       douyin_ad_finish.recycle();
       if (douyin_ad_finish_point) {
         break;
@@ -231,7 +231,7 @@ function douyin_ad() {
 
       // 判断是否中断
       let douyin_ad_continue_flag = images.read("./douyin/douyin_ad_continue_flag.png");
-      let douyin_ad_continue_flag_point = waitForImage(douyin_ad_continue_flag, 3000, 0.8);
+      let douyin_ad_continue_flag_point = waitForGrayscaleImage(douyin_ad_continue_flag, 3000, 0.8);
       douyin_ad_continue_flag.recycle();
       if (douyin_ad_continue_flag_point) {
         click(douyin_ad_continue_flag_point.x, douyin_ad_continue_flag_point.y);
@@ -240,7 +240,7 @@ function douyin_ad() {
 
     // 判断是否跳转进下载页
     var douyin_ad_download_cancle = images.read("./douyin/douyin_ad_download_cancle.png");
-    var douyin_ad_download_cancle_point = waitForImage(douyin_ad_download_cancle, 30000, 0.7);
+    var douyin_ad_download_cancle_point = waitForGrayscaleImage(douyin_ad_download_cancle, 30000, 0.8);
     douyin_ad_download_cancle.recycle();
     if (douyin_ad_download_cancle_point) {
       click(douyin_ad_download_cancle_point.x, douyin_ad_download_cancle_point.y);
@@ -248,7 +248,7 @@ function douyin_ad() {
 
     // 判断是否观看完成
     var douyin_ad_success = images.read("./douyin/douyin_ad_success.png");
-    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 3000, 0.7);
+    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 3000, 0.8);
     douyin_ad_success.recycle();
     if (douyin_ad_success_point) {
       click(douyin_ad_success_point.x, douyin_ad_success_point.y);
@@ -256,7 +256,7 @@ function douyin_ad() {
 
       // 判断是否有继续标识
       var douyin_ad_continue = images.read("./douyin/douyin_ad_continue.png");
-      var douyin_ad_continue_point = waitForImage(douyin_ad_continue, 3000, 0.7);
+      var douyin_ad_continue_point = waitForGrayscaleImage(douyin_ad_continue, 3000, 0.8);
       douyin_ad_continue.recycle();
       if (douyin_ad_continue_point) {
         click(douyin_ad_continue_point.x, douyin_ad_continue_point.y);
@@ -265,7 +265,7 @@ function douyin_ad() {
     }
     // 判断是否完成
     var douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
-    var douyin_ad_complete_point = waitForImage(douyin_ad_complete, 3000, 0.7);
+    var douyin_ad_complete_point = waitForGrayscaleImage(douyin_ad_complete, 3000, 0.8);
     douyin_ad_complete.recycle();
     if (douyin_ad_complete_point) {
       click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
@@ -275,7 +275,7 @@ function douyin_ad() {
 
     // 判断是否完成
     var douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
-    var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000, 0.7);
+    var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000, 0.8);
     douyin_ad_flag.recycle();
     if (douyin_ad_flag_point) {
       break;

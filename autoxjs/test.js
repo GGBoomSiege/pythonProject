@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 870, 896, 118, 44);
-  // 986 946
+  var startup = images.clip(img, 826, 120, 133, 40);
+  // 956 155
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -292,13 +292,143 @@ function temp() {
   }
 }
 
-function temp2() {
-  var kuaishou_yuyue_getwards = images.read("./kuaishou/kuaishou_yuyue_getwards.png");
-  var kuaishou_yuyue_getwards_point = waitForImage(kuaishou_yuyue_getwards, 5000);
-  kuaishou_yuyue_getwards.recycle();
+function kuaishou_ad() {
+  log("广告开始");
+  while (true) {
+    var kuaishou_ad_success = images.read("./kuaishou/kuaishou_ad_success.png");
+    var kuaishou_ad_success_point = waitForGrayscaleImage(kuaishou_ad_success, 60000);
+    kuaishou_ad_success.recycle();
 
-  if (kuaishou_yuyue_getwards_point) {
-    log("已找到");
+    if (kuaishou_ad_success_point) {
+      click(kuaishou_ad_success_point.x, kuaishou_ad_success_point.y);
+      sleep(2000);
+
+      var kuaishou_ad_continue = images.read("./kuaishou/kuaishou_ad_continue.png");
+      var kuaishou_ad_continue_point = waitForGrayscaleImage(kuaishou_ad_continue, 5000);
+      kuaishou_ad_continue.recycle();
+
+      if (kuaishou_ad_continue_point) {
+        click(kuaishou_ad_continue_point.x, kuaishou_ad_continue_point.y);
+        sleep(2000);
+      }
+    }
+
+    var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
+    var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 5000);
+    kuaishou_ad_flag.recycle();
+
+    if (kuaishou_ad_flag_point) {
+      log("广告结束");
+      break;
+    }
+  }
+}
+
+function temp2() {
+  var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
+  var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 3000);
+  kuaishou_ad_flag.recycle();
+
+  if (kuaishou_ad_flag_point) {
+    var kuaishou_ad_startup = images.read("./kuaishou/kuaishou_ad_startup.png");
+    var kuaishou_ad_startup_point = waitForRegionImage(kuaishou_ad_startup, kuaishou_ad_flag_point.x, kuaishou_ad_flag_point.y, 972, 154, 3000);
+    kuaishou_ad_startup.recycle();
+
+    if (kuaishou_ad_startup_point) {
+      click(kuaishou_ad_startup_point.x, kuaishou_ad_startup_point.y);
+      sleep(5000);
+      kuaishou_ad(); // 点击广告
+    }
+  }
+}
+
+function douyin_ad() {
+  let count = 0;
+  while (count < 10) {
+    // 判断是否跳入直播
+    if (count > 2) {
+      sleep(1000);
+      back();
+
+      // 判断是否完成
+      let douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
+      let douyin_ad_complete_point = waitForGrayscaleImage(douyin_ad_complete, 3000, 0.8);
+      douyin_ad_complete.recycle();
+      if (douyin_ad_complete_point) {
+        click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
+        sleep(1000);
+        break;
+      }
+
+      let douyin_ad_finish = images.read("./douyin/douyin_ad_finish.png");
+      let douyin_ad_finish_point = waitForGrayscaleImage(douyin_ad_finish, 3000, 0.8);
+      douyin_ad_finish.recycle();
+      if (douyin_ad_finish_point) {
+        break;
+      }
+
+      // 判断是否中断
+      let douyin_ad_continue_flag = images.read("./douyin/douyin_ad_continue_flag.png");
+      let douyin_ad_continue_flag_point = waitForGrayscaleImage(douyin_ad_continue_flag, 3000, 0.8);
+      douyin_ad_continue_flag.recycle();
+      if (douyin_ad_continue_flag_point) {
+        click(douyin_ad_continue_flag_point.x, douyin_ad_continue_flag_point.y);
+      }
+    }
+
+    // 判断是否跳转进下载页
+    var douyin_ad_download_cancle = images.read("./douyin/douyin_ad_download_cancle.png");
+    var douyin_ad_download_cancle_point = waitForGrayscaleImage(douyin_ad_download_cancle, 30000, 0.8);
+    douyin_ad_download_cancle.recycle();
+    if (douyin_ad_download_cancle_point) {
+      click(douyin_ad_download_cancle_point.x, douyin_ad_download_cancle_point.y);
+    }
+
+    // 判断是否观看完成
+    var douyin_ad_success = images.read("./douyin/douyin_ad_success.png");
+    var douyin_ad_success_point = waitForGrayscaleImage(douyin_ad_success, 3000, 0.8);
+    douyin_ad_success.recycle();
+    if (douyin_ad_success_point) {
+      click(douyin_ad_success_point.x, douyin_ad_success_point.y);
+      sleep(2000);
+
+      // 判断是否有继续标识
+      var douyin_ad_continue = images.read("./douyin/douyin_ad_continue.png");
+      var douyin_ad_continue_point = waitForGrayscaleImage(douyin_ad_continue, 3000, 0.8);
+      douyin_ad_continue.recycle();
+      if (douyin_ad_continue_point) {
+        click(douyin_ad_continue_point.x, douyin_ad_continue_point.y);
+      }
+      sleep(2000);
+    }
+    // 判断是否完成
+    var douyin_ad_complete = images.read("./douyin/douyin_ad_complete.png");
+    var douyin_ad_complete_point = waitForGrayscaleImage(douyin_ad_complete, 3000, 0.8);
+    douyin_ad_complete.recycle();
+    if (douyin_ad_complete_point) {
+      click(douyin_ad_complete_point.x, douyin_ad_complete_point.y);
+      sleep(1000);
+      break;
+    }
+
+    // 判断是否完成
+    var douyin_ad_flag = images.read("./douyin/douyin_ad_flag.png");
+    var douyin_ad_flag_point = waitForImage(douyin_ad_flag, 3000, 0.8);
+    douyin_ad_flag.recycle();
+    if (douyin_ad_flag_point) {
+      break;
+    }
+
+    count++;
+  }
+}
+
+function temp3() {
+  let douyin_ad_complete = images.read("./douyin/douyin_ad_flag.png");
+  let douyin_ad_complete_point = waitForGrayscaleImage(douyin_ad_complete, 3000, 0.8);
+  douyin_ad_complete.recycle();
+  if (douyin_ad_complete_point) {
+    log("找到");
   }
 }
 
@@ -316,7 +446,9 @@ const x = 1080;
 const y = 2340;
 
 // main();
-temp2();
+// temp2();
+// kuaishou_ad();
+temp3();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();
