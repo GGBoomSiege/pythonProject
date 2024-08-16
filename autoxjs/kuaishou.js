@@ -110,14 +110,16 @@ function main() {
       kuaishou_ad_startup.recycle();
 
       if (kuaishou_ad_startup_point) {
+        sleep(3000);
         click(kuaishou_ad_startup_point.x, kuaishou_ad_startup_point.y);
-        sleep(5000);
         kuaishou_ad(); // 点击广告
       }
     } else {
       log("结束领取广告福利");
       break;
     }
+
+    sleep(1000);
   }
 }
 
