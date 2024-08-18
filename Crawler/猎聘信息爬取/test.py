@@ -37,16 +37,17 @@ def get_jobs(url):
         EC.presence_of_element_located(
             (
                 By.XPATH,
-                "//div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
+                "/html/body/div[@id='lp-search-job-box']/div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
             )
         )
     )
     job_description = driver.find_elements(
         By.XPATH,
-        "//div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
+        "/html/body/div[@id='lp-search-job-box']/div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
     )
-    # jobs_title = job_description.find_elements(
-    #     By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
+    # jobs_title = job_description[1].find_element(
+    #     By.XPATH,
+    #     "//div[@class='jsx-2693574896 ellipsis-1']",
     # )
     # jobs_title = driver.find_elements(
     #     By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
@@ -67,7 +68,9 @@ def get_jobs(url):
     # )
 
     # print(flag)
-    # print(len(jobs_url))
+    # print(len(job_description))
+    # print(jobs_title.text)
+    # print(type(jobs_title.text))
 
     # for num in range(len(company_size)):
     #     print(company_size[num].text)
@@ -85,10 +88,14 @@ def get_jobs(url):
         #         }
         #     ]
         # )
-        jobs_title = job_description[num].find_elements(
-            By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
+        #     jobs_title = job_description[num].find_element(
+        #         By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
+        #     )
+        jobs_title = job_description[num].find_element(
+            By.XPATH,
+            "//div[@class='jsx-2693574896 job-title-box']/div[@class='jsx-2693574896 ellipsis-1']",
         )
-        print(job_description[num].text)
+        print(str(num) + ":" + jobs_title.text)
 
     # 关闭浏览器
     driver.quit()
@@ -97,5 +104,5 @@ def get_jobs(url):
 
 if __name__ == "__main__":
     get_jobs(
-        "https://www.liepin.com/zhaopin/?city=060080&dq=060080&pubTime=&currentPage=7&pageSize=40&key=%E7%94%9F%E7%89%A9&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&sfrom=search_job_pc&ckId=g9bdzp11yfxbtiq4u6aexz5bevaifi9b&skId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&fkId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&scene=page&suggestId="
+        "https://www.liepin.com/zhaopin/?city=060080&dq=060080&pubTime=&currentPage=0&pageSize=40&key=%E7%94%9F%E7%89%A9&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&ckId=n46442oky97q2jmweteu0ah2ui45dnl8&skId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&fkId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&scene=page&sfrom=search_job_pc&suggestId="
     )
