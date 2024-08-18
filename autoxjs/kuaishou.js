@@ -153,6 +153,9 @@ function main() {
   sleep(5000);
   runMain("com.kuaishou.nebula");
   sleep(5000);
+  // 点击去赚钱
+  click(756, 2230);
+  sleep(10000);
   backMain("com.kuaishou.nebula");
 
   sleep(5000);
@@ -160,7 +163,7 @@ function main() {
   sleep(5000);
   // 点击去赚钱
   click(756, 2230);
-  sleep(10000);
+  sleep(20000);
   swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
   sleep(2000);
   run();
