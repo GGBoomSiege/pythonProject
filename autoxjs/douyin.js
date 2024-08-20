@@ -343,9 +343,6 @@ function runMain() {
 }
 
 function main() {
-  device.wakeUp();
-  auto.waitFor();
-
   sleep(2000);
   log("开始执行抖音脚本");
   // 运行抖音
@@ -406,4 +403,6 @@ const y = 2340;
 const startTime = Date.now();
 const timeout = 150 * 60 * 1000;
 
+device.wakeUp();
+auto.waitFor();
 main();

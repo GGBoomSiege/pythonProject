@@ -371,9 +371,6 @@ function kuaishou() {
 }
 
 function main() {
-  device.wakeUp();
-  auto.waitFor();
-
   while (Date.now() - startTime < timeout) {
     log("已运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
     log("开始执行抖音脚本");
@@ -399,4 +396,6 @@ const y = 2340;
 const startTime = Date.now();
 const timeout = 30 * 60 * 1000;
 
+device.wakeUp();
+auto.waitFor();
 main();

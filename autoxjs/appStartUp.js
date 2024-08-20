@@ -436,9 +436,6 @@ function sign_115() {
 }
 
 function main() {
-  device.wakeUp();
-  auto.waitFor();
-
   sleep(1000);
   phonepalStart();
   sleep(1000);
@@ -451,4 +448,6 @@ function main() {
 const x = 1080;
 const y = 2340;
 
+device.wakeUp();
+auto.waitFor();
 main();

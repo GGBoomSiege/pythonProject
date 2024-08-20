@@ -179,4 +179,6 @@ if (!requestScreenCapture()) {
 const x = 1080;
 const y = 2340;
 
+device.wakeUp();
+auto.waitFor();
 main();
