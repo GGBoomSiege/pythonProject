@@ -271,6 +271,7 @@ function kuaishouSign() {
 
     if (result) {
       click(542, 1542);
+      sleep(2000);
     }
   }
 
