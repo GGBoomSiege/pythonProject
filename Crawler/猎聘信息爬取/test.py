@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,6 +14,7 @@ import datetime
 import uuid
 import time
 import random
+import re
 
 url = ""
 
@@ -67,35 +69,74 @@ def get_jobs(url):
     #     By.XPATH, "//div[@class='jsx-2693574896 company-tags-box ellipsis-1']"
     # )
 
-    # print(flag)
-    # print(len(job_description))
-    # print(jobs_title.text)
-    # print(type(jobs_title.text))
-
-    # for num in range(len(company_size)):
-    #     print(company_size[num].text)
+    # if BeautifulSoup(job_description[25].get_attribute("outerHTML")):
+    #     company_size = (
+    #         BeautifulSoup(job_description[25].get_attribute("outerHTML"))
+    #         .find("div", class_="jsx-2693574896 company-tags-box ellipsis-1")
+    #         .text
+    #     )
+    #     print(company_size)
+    # else:
+    #     print("没有数据")
 
     for num in range(len(job_description)):
+        print(num)
+        job_title = (
+            BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+            .find("div", class_="jsx-2693574896 ellipsis-1")
+            .text
+        )
+        print(1)
+        if re.match(r"^某", job_title):
+            continue
+        job_location = (
+            BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+            .find("span", class_="jsx-2693574896 ellipsis-1")
+            .text
+        )
+        print(2)
+        salary = (
+            BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+            .find("span", class_="jsx-2693574896 job-salary")
+            .text
+        )
+        print(3)
+        job_url = (
+            BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+            .find("a", class_="jsx-2693574896")
+            .get("href")
+        )
+        print(4)
+        company_title = (
+            BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+            .find("span", class_="jsx-2693574896 company-name ellipsis-1")
+            .text
+        )
+        print(5)
+        try:
+            company_size = (
+                BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                .find("div", class_="jsx-2693574896 company-tags-box ellipsis-1")
+                .text
+            )
+            print(6)
+        except Exception as e:
+            continue
+
         # infos.extend(
         #     [
         #         {
-        #             "job_title": jobs_title[num].text,
-        #             "job_location": jobs_location[num].text,
-        #             "salary": salary[num].text,
-        #             "job_url": jobs_url[num].get_attribute("href"),
-        #             "company_title": company_titles[num].text,
-        #             "company_size": company_size[num].text,
+        #             "job_title": job_title,
+        #             "job_location": job_location,
+        #             "salary": salary,
+        #             "job_url": job_url,
+        #             "company_title": company_title,
+        #             "company_size": company_size,
         #         }
         #     ]
         # )
-        #     jobs_title = job_description[num].find_element(
-        #         By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
-        #     )
-        jobs_title = job_description[num].find_element(
-            By.XPATH,
-            "//div[@class='jsx-2693574896 job-title-box']/div[@class='jsx-2693574896 ellipsis-1']",
-        )
-        print(str(num) + ":" + jobs_title.text)
+
+        print(job_title)
 
     # 关闭浏览器
     driver.quit()
@@ -104,5 +145,5 @@ def get_jobs(url):
 
 if __name__ == "__main__":
     get_jobs(
-        "https://www.liepin.com/zhaopin/?city=060080&dq=060080&pubTime=&currentPage=0&pageSize=40&key=%E7%94%9F%E7%89%A9&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&ckId=n46442oky97q2jmweteu0ah2ui45dnl8&skId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&fkId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&scene=page&sfrom=search_job_pc&suggestId="
+        "https://www.liepin.com/zhaopin/?city=060080&dq=060080&pubTime=&currentPage=19&pageSize=40&key=%E7%94%9F%E7%89%A9&suggestTag=&workYearCode=0&compId=&compName=&compTag=&industry=&salary=&jobKind=&compScale=&compKind=&compStage=&eduLevel=&sfrom=search_job_pc&scene=page&ckId=m6putz3n5bi6vgnpu61r6vic03tkbb3b&skId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&fkId=wg8jxx7juvm5iuk5pfrav4sas0fepoub&suggestId="
     )

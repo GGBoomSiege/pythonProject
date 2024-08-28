@@ -1,4 +1,5 @@
 # 导入selenium库
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,6 +15,7 @@ import datetime
 import uuid
 import time
 import random
+import re
 
 url = ""
 
@@ -50,46 +52,67 @@ def get_jobs(JOB_KEY, CITY_KEY):
                 EC.presence_of_element_located(
                     (
                         By.XPATH,
-                        "//div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
+                        "/html/body/div[@id='lp-search-job-box']/div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
                     )
                 )
             )
-            jobs_title = driver.find_elements(
-                By.XPATH, "//div[@class='jsx-2693574896 ellipsis-1']"
-            )
-            jobs_location = driver.find_elements(
-                By.XPATH, "//span[@class='jsx-2693574896 ellipsis-1']"
-            )
-            salary = driver.find_elements(
-                By.XPATH, "//span[@class='jsx-2693574896 job-salary']"
-            )
-            # jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896']")
-            jobs_url = driver.find_elements(By.XPATH, "//a[@class='jsx-2693574896 ']")
-            company_titles = driver.find_elements(
-                By.XPATH, "//span[@class='jsx-2693574896 company-name ellipsis-1']"
-            )
-            company_size = driver.find_elements(
-                By.XPATH, "//div[@class='jsx-2693574896 company-tags-box ellipsis-1']"
+
+            job_description = driver.find_elements(
+                By.XPATH,
+                "/html/body/div[@id='lp-search-job-box']/div[@class='content-wrap']/section[@class='content-left-section']/div[@class='job-list-box']/div/div[@class='jsx-2297469327 job-card-pc-container']",
             )
 
-            # print(flag)
-            print(len(jobs_url))
+            for num in range(len(job_description)):
+                company_title = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find("span", class_="jsx-2693574896 company-name ellipsis-1")
+                    .text
+                )
+                if re.match(r"^某", company_title):
+                    continue
+                job_title = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find("div", class_="jsx-2693574896 ellipsis-1")
+                    .text
+                )
+                job_location = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find("span", class_="jsx-2693574896 ellipsis-1")
+                    .text
+                )
+                salary = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find("span", class_="jsx-2693574896 job-salary")
+                    .text
+                )
+                job_url = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find("a", class_="jsx-2693574896")
+                    .get("href")
+                )
+                try:
+                    company_size = (
+                        BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                        .find(
+                            "div", class_="jsx-2693574896 company-tags-box ellipsis-1"
+                        )
+                        .text
+                    )
+                except Exception as e:
+                    continue
 
-            for num in range(len(jobs_title)):
-                print(1)
                 infos.extend(
                     [
                         {
-                            "job_title": jobs_title[num].text,
-                            "job_location": jobs_location[num].text,
-                            "salary": salary[num].text,
-                            "job_url": jobs_url[num].get_attribute("href"),
-                            "company_title": company_titles[num].text,
-                            "company_size": company_size[num].text,
+                            "job_title": job_title,
+                            "job_location": job_location,
+                            "salary": salary,
+                            "job_url": job_url,
+                            "company_title": company_title,
+                            "company_size": company_size,
                         }
                     ]
                 )
-            print(2)
 
             end_button = wait.until(
                 EC.presence_of_element_located(
@@ -212,7 +235,7 @@ if __name__ == "__main__":
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
         # JOB_KEY = "运维"
-        JOB_KEY = "生物"
+        JOB_KEY = "运维"
         # JOB_KEY = "UX"
         # CITY_KEY = "020"  # 上海
         CITY_KEY = "060080"  # 苏州
