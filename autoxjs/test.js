@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 826, 120, 133, 40);
-  // 956 155
+  var startup = images.clip(img, 460, 1380, 160, 40);
+  // 617 1421
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");
@@ -445,10 +445,10 @@ function main() {
 const x = 1080;
 const y = 2340;
 
-// main();
+main();
 // temp2();
 // kuaishou_ad();
-temp3();
+// temp3();
 // swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 3) * y, 500);
 
 // const startTime = Date.now();

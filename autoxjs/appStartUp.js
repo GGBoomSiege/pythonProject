@@ -435,7 +435,15 @@ function sign_115() {
   backMain("com.ylmf.androidclient");
 }
 
+function autoxjsStart() {
+  app.launch("org.autojs.autoxjs.v6");
+  sleep(5000);
+  home();
+}
+
 function main() {
+  sleep(1000);
+  autoxjsStart();
   sleep(1000);
   phonepalStart();
   sleep(1000);

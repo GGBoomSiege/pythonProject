@@ -86,14 +86,6 @@ function kuaishou_ad() {
   log("广告开始");
   var ad_count = 0;
   while (ad_count++ < 30) {
-    var kuaishou_ad_pre_success = images.read("./kuaishou/kuaishou_ad_pre_success.png");
-    var kuaishou_ad_pre_success_point = waitForGrayscaleImage(kuaishou_ad_pre_success, 5000);
-    kuaishou_ad_pre_success.recycle();
-
-    if (kuaishou_ad_pre_success_point) {
-      click(kuaishou_ad_pre_success_point.x, kuaishou_ad_pre_success_point.y);
-    }
-
     var kuaishou_ad_success = images.read("./kuaishou/kuaishou_ad_success.png");
     var kuaishou_ad_success_point = waitForGrayscaleImage(kuaishou_ad_success, 60000);
     kuaishou_ad_success.recycle();
@@ -154,37 +146,7 @@ function run() {
 }
 
 function main() {
-  runMain("com.kuaishou.nebula");
-  sleep(5000);
-  backMain("com.kuaishou.nebula");
-
-  sleep(5000);
-  runMain("com.kuaishou.nebula");
-  sleep(5000);
-  // 点击去赚钱
-  click(756, 2230);
-  sleep(10000);
-  backMain("com.kuaishou.nebula");
-
-  sleep(5000);
-  runMain("com.kuaishou.nebula");
-  sleep(5000);
-  // 点击去赚钱
-  click(756, 2230);
-  sleep(10000);
-  backMain("com.kuaishou.nebula");
-
-  sleep(5000);
-  runMain("com.kuaishou.nebula");
-  sleep(5000);
-  // 点击去赚钱
-  click(756, 2230);
-  sleep(20000);
-  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
-  sleep(2000);
   run();
-  sleep(5000);
-  backMain("com.kuaishou.nebula");
 }
 
 if (!requestScreenCapture()) {
@@ -195,6 +157,4 @@ if (!requestScreenCapture()) {
 const x = 1080;
 const y = 2340;
 
-device.wakeUp();
-auto.waitFor();
 main();
