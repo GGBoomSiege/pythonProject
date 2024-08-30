@@ -124,32 +124,48 @@ function kuaishou_ad() {
 
 function run() {
   var run_count = 0;
-  while (run_count++ < 20) {
+  while (run_count++ < 10) {
     var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
     var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 3000);
     kuaishou_ad_flag.recycle();
 
     if (kuaishou_ad_flag_point) {
-      log("开始领取广告福利");
-      var kuaishou_ad_startup = images.read("./kuaishou/kuaishou_ad_startup.png");
-      var kuaishou_ad_startup_point = waitForRegionImage(kuaishou_ad_startup, kuaishou_ad_flag_point.x, kuaishou_ad_flag_point.y, 972, 154, 3000);
-      kuaishou_ad_startup.recycle();
+      run_count = 0;
+      while (run_count++ < 20) {
+        var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
+        var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 3000);
+        kuaishou_ad_flag.recycle();
 
-      if (kuaishou_ad_startup_point) {
-        sleep(3000);
-        click(kuaishou_ad_startup_point.x, kuaishou_ad_startup_point.y);
-        sleep(3000);
-        kuaishou_ad(); // 点击广告
+        if (kuaishou_ad_flag_point) {
+          log("开始领取广告福利");
+          var kuaishou_ad_startup = images.read("./kuaishou/kuaishou_ad_startup.png");
+          var kuaishou_ad_startup_point = waitForRegionImage(kuaishou_ad_startup, kuaishou_ad_flag_point.x, kuaishou_ad_flag_point.y, 972, 154, 3000);
+          kuaishou_ad_startup.recycle();
+
+          if (kuaishou_ad_startup_point) {
+            sleep(3000);
+            click(kuaishou_ad_startup_point.x, kuaishou_ad_startup_point.y);
+            sleep(3000);
+            kuaishou_ad(); // 点击广告
+          } else {
+            swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
+            sleep(2000);
+          }
+        } else {
+          log("结束领取广告福利");
+          break;
+        }
+
+        sleep(2000);
+        if (run_count === 20) {
+          log("脚本运行失败");
+        }
       }
-    } else {
-      log("结束领取广告福利");
       break;
     }
 
+    swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
     sleep(2000);
-    if (run_count === 20) {
-      log("脚本运行失败");
-    }
   }
 }
 
@@ -180,8 +196,6 @@ function main() {
   // 点击去赚钱
   click(756, 2230);
   sleep(20000);
-  swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
-  sleep(2000);
   run();
   sleep(5000);
   backMain("com.kuaishou.nebula");
