@@ -146,8 +146,8 @@ function run() {
 }
 
 function main() {
-  // kuaishou_ad();
-  run();
+  kuaishou_ad();
+  // run();
 }
 
 if (!requestScreenCapture()) {
