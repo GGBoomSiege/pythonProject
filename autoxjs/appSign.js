@@ -264,6 +264,7 @@ function kuaishouSign() {
   // 执行签到操作，并返回
   if (result) {
     click(result.x, result.y);
+    back();
   } else {
     var sign = images.read("./kuaishou/kuaishou_new_sign.png");
     var result = waitForImage(sign, 5000);
@@ -272,11 +273,20 @@ function kuaishouSign() {
     if (result) {
       click(542, 1542);
       sleep(2000);
+      back();
     }
   }
 
   swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
   sleep(1000);
+
+  var kuaishou_linqu = images.read("./kuaishou/kuaishou_linqu.png");
+  var kuaishou_linqu_point = waitForImage(kuaishou_linqu, 5000);
+  kuaishou_linqu.recycle();
+
+  if (kuaishou_linqu_point) {
+    click(kuaishou_linqu_point.x, kuaishou_linqu_point.y);
+  }
 
   var kuaishou_yuyue = images.read("./kuaishou/kuaishou_yuyue.png");
   var kuaishou_yuyue_point = waitForImage(kuaishou_yuyue, 5000);
@@ -289,6 +299,8 @@ function kuaishouSign() {
 
     if (kuaishou_yuyue_flag_point) {
       click(kuaishou_yuyue_flag_point.x, kuaishou_yuyue_flag_point.y);
+
+      sleep(10000);
 
       var kuaishou_yuyue_wards = images.read("./kuaishou/kuaishou_yuyue_wards.png");
       var kuaishou_yuyue_wards_point = waitForImage(kuaishou_yuyue_wards, 5000);
@@ -309,6 +321,34 @@ function kuaishouSign() {
           sleep(5000);
           back();
         }
+      }
+    }
+  }
+
+  sleep(1000);
+
+  var kuaishou_yuyue = images.read("./kuaishou/kuaishou_pre_yuyue.png");
+  var kuaishou_yuyue_point = waitForImage(kuaishou_yuyue, 5000);
+  kuaishou_yuyue.recycle();
+
+  if (kuaishou_yuyue_point) {
+    var kuaishou_yuyue_flag = images.read("./kuaishou/kuaishou_pre_yuyue_flag.png");
+    var kuaishou_yuyue_flag_point = waitForRegionImage(kuaishou_yuyue_flag, kuaishou_yuyue_point.x, kuaishou_yuyue_point.y, 970, 148, 3000);
+    kuaishou_yuyue_flag.recycle();
+
+    if (kuaishou_yuyue_flag_point) {
+      click(kuaishou_yuyue_flag_point.x, kuaishou_yuyue_flag_point.y);
+
+      sleep(10000);
+
+      var kuaishou_yuyue_wards = images.read("./kuaishou/kuaishou_pre_yuyue_wards.png");
+      var kuaishou_yuyue_wards_point = waitForImage(kuaishou_yuyue_wards, 5000);
+      kuaishou_yuyue_wards.recycle();
+
+      if (kuaishou_yuyue_wards_point) {
+        click(kuaishou_yuyue_wards_point.x, kuaishou_yuyue_wards_point.y);
+        sleep(5000);
+        back();
       }
     }
   }

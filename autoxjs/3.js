@@ -80,67 +80,30 @@ function runMain(package) {
   back();
 }
 
-//   看广告赚金币
-
-function kuaishou_ad() {
-  log("广告开始");
-  var ad_count = 0;
-  while (ad_count++ < 30) {
-    var kuaishou_ad_success = images.read("./kuaishou/kuaishou_ad_success.png");
-    var kuaishou_ad_success_point = waitForGrayscaleImage(kuaishou_ad_success, 60000);
-    kuaishou_ad_success.recycle();
-
-    if (kuaishou_ad_success_point) {
-      click(kuaishou_ad_success_point.x, kuaishou_ad_success_point.y);
-      sleep(1000);
-
-      var kuaishou_ad_continue = images.read("./kuaishou/kuaishou_ad_continue.png");
-      var kuaishou_ad_continue_point = waitForGrayscaleImage(kuaishou_ad_continue, 5000);
-      kuaishou_ad_continue.recycle();
-
-      if (kuaishou_ad_continue_point) {
-        click(kuaishou_ad_continue_point.x, kuaishou_ad_continue_point.y);
-      }
-    }
-
-    var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
-    var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 5000);
-    kuaishou_ad_flag.recycle();
-
-    if (kuaishou_ad_flag_point) {
-      log("广告结束");
-      break;
-    }
-  }
-}
-
 function run() {
-  var run_count = 0;
-  while (run_count++ < 20) {
-    var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
-    var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 3000);
-    kuaishou_ad_flag.recycle();
+  var kuaishou_yuyue = images.read("./kuaishou/kuaishou_pre_yuyue.png");
+  var kuaishou_yuyue_point = waitForImage(kuaishou_yuyue, 5000);
+  kuaishou_yuyue.recycle();
 
-    if (kuaishou_ad_flag_point) {
-      log("开始领取广告福利");
-      var kuaishou_ad_startup = images.read("./kuaishou/kuaishou_ad_startup.png");
-      var kuaishou_ad_startup_point = waitForRegionImage(kuaishou_ad_startup, kuaishou_ad_flag_point.x, kuaishou_ad_flag_point.y, 972, 154, 3000);
-      kuaishou_ad_startup.recycle();
+  if (kuaishou_yuyue_point) {
+    var kuaishou_yuyue_flag = images.read("./kuaishou/kuaishou_pre_yuyue_flag.png");
+    var kuaishou_yuyue_flag_point = waitForRegionImage(kuaishou_yuyue_flag, kuaishou_yuyue_point.x, kuaishou_yuyue_point.y, 970, 148, 3000);
+    kuaishou_yuyue_flag.recycle();
 
-      if (kuaishou_ad_startup_point) {
-        sleep(3000);
-        click(kuaishou_ad_startup_point.x, kuaishou_ad_startup_point.y);
-        sleep(3000);
-        kuaishou_ad(); // 点击广告
+    if (kuaishou_yuyue_flag_point) {
+      click(kuaishou_yuyue_flag_point.x, kuaishou_yuyue_flag_point.y);
+
+      sleep(10000);
+
+      var kuaishou_yuyue_wards = images.read("./kuaishou/kuaishou_pre_yuyue_wards.png");
+      var kuaishou_yuyue_wards_point = waitForImage(kuaishou_yuyue_wards, 5000);
+      kuaishou_yuyue_wards.recycle();
+
+      if (kuaishou_yuyue_wards_point) {
+        click(kuaishou_yuyue_wards_point.x, kuaishou_yuyue_wards_point.y);
+        sleep(5000);
+        back();
       }
-    } else {
-      log("结束领取广告福利");
-      break;
-    }
-
-    sleep(2000);
-    if (run_count === 20) {
-      log("脚本运行失败");
     }
   }
 }
