@@ -65,41 +65,38 @@ def get_jobs(JOB_KEY, CITY_KEY):
             for num in range(len(job_description)):
                 company_title = (
                     BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                    .find("span", class_="jsx-2693574896 company-name ellipsis-1")
+                    .find("span", class_=re.compile("jsx-.*company-name ellipsis-1"))
                     .text
                 )
                 if re.match(r"^某", company_title):
                     continue
                 job_title = (
                     BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                    .find("div", class_="jsx-2693574896 ellipsis-1")
+                    .find("div", class_=re.compile("jsx-.*ellipsis-1"))
                     .text
                 )
                 job_location = (
                     BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                    .find("span", class_="jsx-2693574896 ellipsis-1")
+                    .find("span", class_=re.compile("jsx-.*ellipsis-1"))
                     .text
                 )
                 salary = (
                     BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                    .find("span", class_="jsx-2693574896 job-salary")
+                    .find("span", class_=re.compile("jsx-.*job-salary"))
                     .text
                 )
                 job_url = (
                     BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                    .find("a", class_="jsx-2693574896")
+                    .find("a", class_=re.compile("jsx-.*"))
                     .get("href")
                 )
-                try:
-                    company_size = (
-                        BeautifulSoup(job_description[num].get_attribute("outerHTML"))
-                        .find(
-                            "div", class_="jsx-2693574896 company-tags-box ellipsis-1"
-                        )
-                        .text
+                company_size = (
+                    BeautifulSoup(job_description[num].get_attribute("outerHTML"))
+                    .find(
+                        "div", class_=re.compile("jsx-.*company-tags-box.*ellipsis-1")
                     )
-                except Exception as e:
-                    continue
+                    .text
+                )
 
                 infos.extend(
                     [
@@ -235,11 +232,12 @@ if __name__ == "__main__":
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
         # JOB_KEY = "运维"
-        JOB_KEY = "运维"
+        JOB_KEY = "嵌入式"
         # JOB_KEY = "UX"
         # CITY_KEY = "020"  # 上海
-        CITY_KEY = "060080"  # 苏州
+        # CITY_KEY = "060080"  # 苏州
         # CITY_KEY = '060100' # 无锡
+        CITY_KEY = "060020"  # 南京
     except Exception as e:
         print("您的输入有误，请重新输入。")
     # jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))
