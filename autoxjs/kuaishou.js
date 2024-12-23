@@ -124,7 +124,7 @@ function kuaishou_ad() {
 
 function run() {
   var run_count = 0;
-  while (run_count++ < 10) {
+  while (run_count++ < 100) {
     var kuaishou_ad_flag = images.read("./kuaishou/kuaishou_ad_flag.png");
     var kuaishou_ad_flag_point = waitForImage(kuaishou_ad_flag, 3000);
     kuaishou_ad_flag.recycle();
@@ -174,13 +174,13 @@ function main() {
   sleep(5000);
   backMain("com.kuaishou.nebula");
 
-  sleep(5000);
-  runMain("com.kuaishou.nebula");
-  sleep(5000);
-  // 点击去赚钱
-  click(756, 2230);
-  sleep(10000);
-  backMain("com.kuaishou.nebula");
+  // sleep(5000);
+  // runMain("com.kuaishou.nebula");
+  // sleep(5000);
+  // // 点击去赚钱
+  // click(756, 2230);
+  // sleep(10000);
+  // backMain("com.kuaishou.nebula");
 
   sleep(5000);
   runMain("com.kuaishou.nebula");

@@ -186,8 +186,8 @@ function readImage() {
   var img = images.read("../Pictures/Screenshots/123.jpg");
 
   // 截取小图
-  var startup = images.clip(img, 860, 1282, 110, 36);
-  // 972 1320
+  var startup = images.clip(img, 842, 1427, 147, 42);
+  // 990 1474
 
   images.save(startup, "../Pictures/Screenshots/temp.png");
   // var startup = images.read("./douyin/douyin_ad_flag.png");

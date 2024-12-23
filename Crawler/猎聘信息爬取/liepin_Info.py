@@ -231,13 +231,13 @@ def get_database():
 if __name__ == "__main__":
     try:
         # JOB_KEY = input('请输入需要查询的岗位名称:')
-        # JOB_KEY = "运维"
-        JOB_KEY = "嵌入式"
+        JOB_KEY = "运维"
+        # JOB_KEY = "嵌入式"
         # JOB_KEY = "UX"
         # CITY_KEY = "020"  # 上海
-        # CITY_KEY = "060080"  # 苏州
+        CITY_KEY = "060080"  # 苏州
         # CITY_KEY = '060100' # 无锡
-        CITY_KEY = "060020"  # 南京
+        # CITY_KEY = "060020"  # 南京
     except Exception as e:
         print("您的输入有误，请重新输入。")
     # jobs = clean_data(get_jobs(JOB_KEY, CITY_KEY))

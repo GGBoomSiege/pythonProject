@@ -446,11 +446,11 @@ function main() {
   autoxjsStart();
   sleep(1000);
   phonepalStart();
-  sleep(1000);
-  tiantangStart();
+  // sleep(1000);
+  // tiantangStart();
 
-  sleep(1000);
-  NovaStart();
+  // sleep(1000);
+  // NovaStart();
 }
 
 const x = 1080;

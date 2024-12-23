@@ -295,10 +295,20 @@ function kuaishouSign() {
   var result = waitForImage(sign, 10000);
   sign.recycle();
 
+  // 执行签到操作，并返回
   if (result) {
-    click(542, 1542);
-    sleep(2000);
+    click(result.x, result.y);
     back();
+  } else {
+    var sign = images.read("./kuaishou/kuaishou_new_sign.png");
+    var result = waitForImage(sign, 5000);
+    sign.recycle();
+
+    if (result) {
+      click(542, 1542);
+      sleep(2000);
+      back();
+    }
   }
 
   swipe((2 / 3) * x, (2 / 3) * y, (2 / 3) * x, (1 / 2) * y, 500);
@@ -420,32 +430,43 @@ function kuaishou() {
   runMain("com.kuaishou.nebula");
   sleep(5000);
   backMain("com.kuaishou.nebula");
-  sleep(5000);
 
+  sleep(5000);
   runMain("com.kuaishou.nebula");
   sleep(5000);
   backMain("com.kuaishou.nebula");
-  sleep(5000);
 
+  sleep(5000);
   runMain("com.kuaishou.nebula");
   sleep(5000);
   kuaishouSign();
   sleep(5000);
   backMain("com.kuaishou.nebula");
-  sleep(5000);
+}
+
+function temp() {
+  // 导入签到图片
+  var sign = images.read("./kuaishou/kuaishou_sign.png");
+  var result = waitForImage(sign, 10000);
+  sign.recycle();
+
+  // 执行签到操作，并返回
+  if (result) {
+    log("已找到，" + result);
+  }
 }
 
 function main() {
-  while (Date.now() - startTime < timeout) {
-    log("已运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
-    log("开始执行抖音脚本");
-    // 运行抖音
-    douyin();
+  log("已运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
+  //   log("开始执行抖音脚本");
+  //   // 运行抖音
+  //   douyin();
 
-    log("开始执行快手脚本");
-    // 运行快手
-    kuaishou();
-  }
+  log("开始执行快手脚本");
+  // 运行快手
+  // kuaishou();
+
+  temp();
 
   log("结束执行脚本，运行时间为 " + (Date.now() - startTime) / 1000 + " 秒。");
 }
