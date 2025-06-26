@@ -8,7 +8,11 @@
 # for item in DATA_DICT.items():
 #     print(item)
 
-import re
-string = '计算机软件已上市1000-9999人'
-tmp = '-'.join(re.findall(r'\d+',string))
-print(type(tmp))
+# import re
+# string = '计算机软件已上市1000-9999人'
+# tmp = '-'.join(re.findall(r'\d+',string))
+# print(type(tmp))
+
+import datetime
+
+print(datetime.datetime.now().timestamp())

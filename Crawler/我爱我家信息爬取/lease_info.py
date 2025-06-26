@@ -11,18 +11,8 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
 import datetime
-import uuid
 from decimal import Decimal
 import time
-
-
-def unique_lease_id():
-    unique_lease_id_lst = [
-        datetime.datetime.now().strftime("%Y%m%d"),
-        str(uuid.uuid4().int % (10**8)),
-    ]
-    unique_lease_id = int("".join(unique_lease_id_lst))
-    return unique_lease_id
 
 
 def get_leases(url):
@@ -72,7 +62,7 @@ def get_leases(url):
             )
 
             leases_title = leases_info[0].find_elements(
-                By.XPATH, "//div[@class='listCon']/h3[@class='listTit']/a"
+                By.XPATH, "//div[@class='listCon']/h2[@class='listTit']/a"
             )
             leases_size = leases_info[0].find_elements(
                 By.XPATH, "//div[@class='listCon']/div[@class='listX']/p[1]"
@@ -119,6 +109,8 @@ def get_leases(url):
                     (By.XPATH, "//div[@class='lfBox lf']/div[@class='pageBox']")
                 )
             )
+
+            # break
 
             if "下一页" not in flag.text:
                 break
@@ -183,8 +175,8 @@ def run_database(data):
     Base = declarative_base()
 
     class HomeInfomation(Base):
-        __tablename__ = "home_infomation"
-        id = Column(BigInteger, primary_key=True, default=unique_lease_id)
+        __tablename__ = "home_infomation_3"
+        id = Column(Integer, primary_key=True, autoincrement=True)
         home = Column(String(64))
         home_url = Column(String(64))
         home_size = Column(String(64))
