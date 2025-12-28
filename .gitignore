@@ -12,3 +12,6 @@ __pycache__/
 
 *.yaml
 *.ini
+
+*.jpg
+*.png
